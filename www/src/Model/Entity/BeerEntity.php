@@ -5,7 +5,7 @@ use Core\Model\Entity;
 
 use Core\Controller\Helpers\TextController;
 
-class PostEntity extends Entity
+class BeerEntity extends Entity
 {
     private $id;
 
@@ -15,9 +15,7 @@ class PostEntity extends Entity
 
     private $content;
 
-    private $created_at;
-
-    private $categories = [];
+    private $price;
 
     /**
      * Get the value of id
@@ -44,6 +42,15 @@ class PostEntity extends Entity
     }
 
     /**
+     * Get the value of img
+     */
+    public function getImg()
+    {
+        dd($this->img);
+        return $this->img;
+    }
+
+    /**
      * Get the value of content
      */
     public function getContent()
@@ -52,12 +59,11 @@ class PostEntity extends Entity
     }
 
     /**
-     * Get the value of created_at
-     * @return \DateTime
+     * Get the value of price
      */
-    public function getCreatedAt()
+    public function getPrice()
     {
-        return new \DateTime($this->created_at);
+        return $this->price;
     }
 
     public function getExcerpt(int $lenght): string
@@ -65,21 +71,11 @@ class PostEntity extends Entity
         return htmlentities(TextController::excerpt($this->getContent(), $lenght));
     }
 
-    public function getCategories(): array
-    {
-        return $this->categories;
-    }
-
-    public function setCategories(CategoryEntity $category): void
-    {
-        $this->categories[] = $category;
-    }
-
     public function getUrl(): string
     {
         return \App\App::getInstance()
             ->getRouter()
-            ->url('post', [
+            ->url('beer', [
                 "slug" => $this->getSlug(),
                 "id" => $this->getId()
             ]);

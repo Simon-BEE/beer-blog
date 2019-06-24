@@ -1,0 +1,23 @@
+{% extends "/layout/default.twig" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<section class="post seeking">
+    <article class="card">
+        <h2>{{ post.name }}</h2>
+        <div class="post-content">
+            <div class="post-cat">
+                <p>
+                {% for key, category in categories %}
+                {% if key > 0 %}
+                ,
+                {% endif %}
+                    <a href="{{ category.url }}">{{ category.name }}</a>
+                {% endfor %}
+                </p>
+            </div>
+            <p>{{ post.content }}</p>
+            <p>{{ post.created_at | date('d/m/Y h:i')}}</p>
+        </div>
+    </article>
+</section>
+{% endblock %}

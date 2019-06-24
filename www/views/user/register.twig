@@ -1,0 +1,64 @@
+{% extends "/layout/default.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<form method="POST" action="" id="formPurchase">
+    <div class="form_row">
+        <div class="form">
+            <label>NOM</label>
+            <input type="text" name="lastname" value="" required/>
+        </div>
+        <div class="form">
+            <label>PRENOM</label>
+            <input type="text" name="firstname" value="" required/>
+        </div>
+    </div>
+    <div class="form">
+        <label>ADRESSE</label>
+        <input type="text" name="address" value="" required/>
+    </div>
+    <div class="form_row">
+        <div class="form">
+            <label>Code Postal</label>
+            <input type="text" name="zipCode" value="" required/>
+        </div>
+        <div class="form">
+            <label>VILLE</label>
+            <input type="text" name="city" value="" required/>
+        </div>
+    </div>
+    <div class="form">
+        <label>PAYS</label>
+        <input type="text" name="country" value="" required/>
+    </div>
+    <div class="form">
+        <label>TEL</label>
+        <input type="tel" name="phone" value="" required/>
+    </div>
+    <div class="form_row">
+        <div class="form">
+            <label>MAIL</label>
+            <input type="email" name="mail" value="" required/>
+        </div>
+        <div class="form">
+            <label>MAIL VERIF</label>
+            <input type="email" name="mailVerify" value="" required/>
+        </div>
+    </div>
+
+    <div class="form_row">
+        <div class="form">
+            <label>PASSWORD</label>
+            <input type="password" name="password" value="" required/>
+        </div>
+        <div class="form">
+            <label>PASSWORD VERIF</label>
+            <input type="password" name="passwordVerify" value="" required/>
+        </div>
+    </div>
+    <button type="submit">S'enregistrer</button>
+</form>
+
+{% endblock %}

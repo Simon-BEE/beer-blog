@@ -3,30 +3,29 @@ namespace App\Controller;
 
 use \Core\Controller\Controller;
 
-class PostController extends Controller
+class BeerController extends Controller
 {
 
     public function __construct()
     {
-        $this->loadModel('post');
-        $this->loadModel('category');
+        $this->loadModel('beer');
     }
 
     public function all()
     {
         $paginatedQuery = new PaginatedQueryAppController(
-            $this->post,
-            $this->generateUrl('posts')
+            $this->beer,
+            $this->generateUrl('beers')
         );
 
-        $postById = $paginatedQuery->getItems();
+        $beers = $paginatedQuery->getItems();
 
-        $title = 'Tous les posts';
+        $title = 'Les bières';
         $this->render(
-            'post/all',
+            'beer/all',
             [
                 "title" => $title,
-                "posts" => $postById,
+                "beers" => $beers,
                 "paginate" => $paginatedQuery->getNavHtml()
             ]
         );
@@ -35,30 +34,27 @@ class PostController extends Controller
     public function show(string $slug, int $id)
     {
 
-        $post = $this->post->find($id);
+        $beer = $this->beer->find($id);
 
-        if (!$post) {
+        if (!$beer) {
             throw new \Exception('Aucun article ne correspond à cet ID');
         }
 
-        if ($post->getSlug() !== $slug) {
-            $url = $this->generateUrl('post', ['id' => $id, 'slug' => $post->getSlug()]);
+        if ($beer->getSlug() !== $slug) {
+            $url = $this->generateUrl('beer', ['id' => $id, 'slug' => $beer->getSlug()]);
 
             http_response_code(301);
             header('Location: ' . $url);
             exit();
         }
 
-        $categories = $this->category->allInId($post->getId());
-
-        $title = "article : " . $post->getName();
+        $title = "article : " . $beer->getName();
 
         $this->render(
-            "post/show",
+            "beer/show",
             [
                 "title" => $title,
-                "categories" => $categories,
-                "post" => $post
+                "beer" => $beer
             ]
         );
     }

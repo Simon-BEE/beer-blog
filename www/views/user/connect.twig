@@ -1,0 +1,24 @@
+{% extends "/layout/default.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<form method="POST" action="" id="formPurchase">
+    <div class="form_row">
+        <div class="form">
+            <label>MAIL</label>
+            <input type="email" name="mail" value="" required/>
+        </div>
+    </div>
+
+    <div class="form_row">
+        <div class="form">
+            <label>PASSWORD</label>
+            <input type="password" name="password" value="" required/>
+        </div>
+    </div>
+    <button type="submit">Se connecter</button>
+</form>
+
+{% endblock %}

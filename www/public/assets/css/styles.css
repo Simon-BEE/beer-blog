@@ -5,6 +5,20 @@ body{
     background: #efefef;
     font-family: 'Roboto', sans-serif;
 }
+h2{
+    font-size: 1.7em;
+    letter-spacing: 2px;
+}
+
+section{
+    box-shadow: 1px 10px 10px #dfdfdf;
+    padding: 4%;
+}
+
+a{
+    color: #1B1B1E;
+    text-decoration: none;
+}
 
 /***********HEADER***********/
 header{
@@ -50,6 +64,7 @@ header{
 
 .title h1{
     font-size: 2em;
+    letter-spacing: 2px;
 }
 
 /***********INDEX***********/
@@ -71,8 +86,10 @@ section .index{
     background-color: #333;
 }
 
-.content{
+.content, .articles{
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .one-post{
@@ -80,6 +97,7 @@ section .index{
     flex-direction: column;
     align-items: center;
     padding: 3%;
+    width: 25%;
 }
 
 .one-post img{
@@ -104,6 +122,57 @@ section .index{
     margin: 1% 0;
 }
 
+.background{
+}
+
+/**********ONE**************/
+
+.post, .card, .post-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-content > *{
+    margin: 2% 0;
+}
+
+/*************************CATEGORIES*************************/
+
+.categories .list-cat{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/*************************PAGINATION*************************/
+
+.navigation{
+    display: flex;
+    justify-content: center;
+    margin: 3% 0;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+}
+
+.pagination li{
+    margin: 0 2%;
+}
+
+.pagination a{
+    color: #C5B786;
+}
+
+.pagination li.active a, .pagination li a:hover {
+    color: #1B1B1E;
+}
+
 /***********FOOTER***********/
 
 footer{
@@ -111,6 +180,23 @@ footer{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    height: 200px;
+}
+
+footer > *{
+    margin: 1% 0;
+}
+
+footer .social{
+    width: 50%;
+    text-align: center;
+}
+
+footer i{
+    margin: 0 3%;
+    font-size: 1.5em;
+    color: #fff;
 }
 
 /***********MENU***********/

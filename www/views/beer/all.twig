@@ -1,10 +1,12 @@
 {% extends "/layout/default.twig" %}
 
+{% block title %}{{ title }}{% endblock %}
+
 {% block content %}
     <h2>{{ title }}</h2>
 <section class="articles seeking">
-{% for post in posts %}
-    {% include("post/card.twig") %}
+{% for beer in beers %}
+    {% include("beer/card.twig") %}
 {% endfor %}
 </section>
 {{ paginate | raw }}

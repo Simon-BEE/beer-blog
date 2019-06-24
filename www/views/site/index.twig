@@ -1,0 +1,33 @@
+{% extends "layout/default.twig" %}
+
+{% block content %}
+<section class="index">
+            <div class="index-demo-posts">
+                <h2>Subtitle</h2>
+                <div class="content">
+                {% for post in posts %}
+                    {% include("post/card.twig") %}
+                {% endfor %}
+                </div>
+                <p><a href="/posts">Voir tous les posts</a></p>
+            </div>
+
+            <div class="index-demo-beers">
+                <h2>Subtitle</h2>
+                <div class="content">
+                {% for beer in beers %}
+                    {% include("beer/card.twig") %}
+                {% endfor %}
+                </div>
+                <p><a href="/beers">Voir toutes les bières</a></p>
+            </div>
+
+            <div class="subscribe">
+                <h2>Subscibe</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi quisquam natus, atque omnis deserunt dicta cupiditate tempora aspernatur excepturi voluptatibus magnam eum quas? Exercitationem, ratione? Neque repudiandae dolores deleniti voluptatibus?</p>
+                <form action="#" method="post">
+                    <input type="text" name="subscribe" value=""><button type="submit">Send</button>
+                </form>
+            </div>
+        </section>
+{% endblock %}

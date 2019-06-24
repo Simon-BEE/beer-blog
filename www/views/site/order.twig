@@ -1,0 +1,68 @@
+{% extends "/layout/default.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <form method="POST" action="" id="formPurchase">
+		<div class="form_row">
+			<div class="form">
+				<label>NOM</label>
+				<input type="text" name="lastname" value="" required/>
+			</div>
+			<div class="form">
+				<label>PRENOM</label>
+				<input type="text" name="firstname" value="" required/>
+			</div>
+		</div>
+		<div class="form">
+			<label>ADRESSE</label>
+			<input type="text" name="address" value="" required/>
+		</div>
+		<div class="form_row">
+			<div class="form">
+				<label>Code Postal</label>
+				<input type="text" name="zipCode" value="" required/>
+			</div>
+			<div class="form">
+				<label>VILLE</label>
+				<input type="text" name="city" value="" required/>
+			</div>
+		</div>
+		<div class="form">
+			<label>PAYS</label>
+			<input type="text" name="country" value="" required/>
+		</div>
+		<div class="form_row">
+			<div class="form">
+				<label>TEL</label>
+				<input type="tel" name="phone" value="" required/>
+			</div>
+			<div class="form">
+				<label>MAIL</label>
+				<input type="text" name="mail" value="" required/>
+			</div>
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>Nomination</th>
+					<th>Prix HT</th>
+					<th>Prix TTC</th>
+					<th>Quantité</th>
+				</tr>
+			</thead>
+			<tbody>
+                {% for beer in beers %}
+                    <tr>
+						<td>{{ beer.name }}</td>
+						<td id="PHT_{{ beer.id }}">{{ beer.price }}€</td>
+						<td id="PTTC_{{ beer.id }}">{{ beer.price }}€</td>
+						<td><input type="number" min="0" name="qty{{ beer.id }}" value="0" oninput="calcPrice(this, {{ beer.id }}, {{ beer.price }});" /></td>
+					</tr>
+                {% endfor %}
+			</tbody>
+		</table>
+		<button type="submit">COMMANDER</button>
+	</form>
+	<script src="/assets/js/scripts.js"></script>
+{% endblock %}

@@ -52,4 +52,9 @@ class Table
             );
         }
     }
+
+    public function lastThird()
+    {
+        return $this->query("SELECT * FROM {$this->table} ORDER BY id DESC LIMIT 3", null, false, null);
+    }
 }

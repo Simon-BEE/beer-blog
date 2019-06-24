@@ -19,7 +19,7 @@ class PaginatedQueryController
     public function __construct(
         Table $classTable,
         string $url = null,
-        int    $perPage = 12
+        int    $perPage = 6
     ) {
         $this->classTable   = $classTable;
         $this->url          = $url;
@@ -60,11 +60,6 @@ class PaginatedQueryController
         $nbPage = $this->getNbPages();
         $navArray = [];
         for ($i = 1; $i <= $nbPage; $i++) {
-            // if($i == 1){
-            //     $url = $uri;
-            // }else{
-            //     $url = $uri . "?page=" . $i;
-            // }
             $url = $i == 1 ? $uri : $uri . "?page=" . $i;
 
             $navArray[$i] = $url;

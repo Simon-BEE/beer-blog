@@ -2,10 +2,11 @@
 
 {% block content %}
     <h2>{{ title }}</h2>
-<section class="articles seeking">
+<section class="articles">
 {% for post in posts %}
     {% include("post/card.twig") %}
 {% endfor %}
 </section>
-{{ paginate | raw }}
+
+{{ paginate | raw}}
 {% endblock %}
