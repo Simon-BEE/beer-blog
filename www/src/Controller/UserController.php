@@ -8,10 +8,22 @@ class UserController extends Controller
     public function __construct()
     {
         $this->loadModel('user');
+        $this->loadModel('orders');
     }
 
     public function register()
     {
+        if (!empty($_SESSION['auth'])) {
+            $title = "Profile";
+            $this->render(
+                'user/profile',
+                [
+                    "title" => $title,
+                    "user" => $_SESSION['auth']
+                ]
+            );
+        }
+        
         if (empty($_POST)) {
             $title = "Enregistrement";
             $this->render(
@@ -45,7 +57,7 @@ class UserController extends Controller
                         $_POST["lastname"], $_POST["firstname"], $_POST["address"], $_POST["zipCode"],
                         $_POST["city"], $_POST["country"], $_POST["phone"], $_POST["mail"], $password);
                         //rediriger sur page profil
-                        header('location: /');
+                        header('location: /connect');
                 }else{
                     die('Adresse mail déjà enregistré');
                 }
@@ -57,6 +69,18 @@ class UserController extends Controller
 
     public function connect()
     {
+        if (!empty($_SESSION['auth'])) {
+            //header location
+            $title = "Profile";
+            $this->render(
+                'user/profile',
+                [
+                    "title" => $title,
+                    "user" => $_SESSION['auth']
+                ]
+            );
+        }
+
         if (empty($_POST)) {
             $title = "Connexion";
             $this->render(
@@ -70,11 +94,47 @@ class UserController extends Controller
         if (isset($_POST["mail"]) && !empty($_POST["mail"]) && isset($_POST["password"]) && !empty($_POST["password"])) {
             $user = $this->user->exist($_POST["mail"]);
             if ($user && password_verify($_POST["password"], $user->getPassword())) {
+                $auth = $this->connected($user);
                 //rediriger sur page profil
-                die('connecté');
+                $title = "Bienvenue, ". $auth->getFirstname() ."!";
+                $this->render(
+                    'user/profile',
+                    [
+                        "title" => $title,
+                        "user" => $auth
+                    ]
+                );
             }else{
-                die('error');
+                die('Erreur d\'identification');
             }
         }
+    }
+
+    public function profile()
+    {
+        if(empty($_SESSION['auth'])){
+            $title = "Connexion";
+            $this->render(
+                'user/connect',
+                [
+                    "title" => $title
+                ]
+            );
+            exit();
+        }
+        $auth = $_SESSION['auth'];
+        $orders = $this->orders->allById($auth->getId());
+        dump($orders);
+        $title = "Profile";
+        $this->render(
+            'user/profile',
+            [
+                "title" => $title,
+                "user" => $auth,
+                "orders" => $orders
+            ]
+        );
+        
+
     }
 }

@@ -44,4 +44,10 @@ class Controller
     {
         $this->$nameTable = $this->getApp()->getTable($nameTable);
     }
+
+    protected function connected($user)
+    {
+        $_SESSION['auth'] = $user;
+        return $_SESSION['auth'];
+    }
 }

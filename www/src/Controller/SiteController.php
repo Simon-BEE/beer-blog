@@ -25,20 +25,4 @@ class SiteController extends Controller
             ]
         );
     }
-
-    public function order()
-    {
-        if (!empty($_POST)) {
-            $beers = $this->beer->all();
-            $title = 'Commander';
-            $this->render(
-                'site/order',
-                [
-                    "title" => $title,
-                    "beers" => $beers
-                ]
-            );
-        }
-        
-    }
 }

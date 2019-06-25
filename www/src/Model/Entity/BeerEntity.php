@@ -7,15 +7,15 @@ use Core\Controller\Helpers\TextController;
 
 class BeerEntity extends Entity
 {
-    private $id;
+    public $id;
 
-    private $name;
+    public $name;
 
     private $slug;
 
     private $content;
 
-    private $price;
+    public $price;
 
     /**
      * Get the value of id

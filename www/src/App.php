@@ -34,6 +34,9 @@ class App
             $whoops->register();
         }
 
+    if (session_status() != PHP_SESSION_ACTIVE){
+        session_start();
+    }
         $numPage = URLController::getPositiveInt('page');
 
         if ($numPage !== null) {

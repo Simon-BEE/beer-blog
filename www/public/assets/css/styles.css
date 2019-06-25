@@ -173,6 +173,12 @@ section .index{
     color: #1B1B1E;
 }
 
+/***********TABLE***********/
+
+table, td, th, tr{
+    border: 1px solid black;
+}
+
 /***********FOOTER***********/
 
 footer{

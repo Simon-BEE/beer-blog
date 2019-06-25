@@ -1,0 +1,87 @@
+{% extends "/layout/default.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<section class="profile">
+	<h2>Bienvenue, {{ user.firstname }}!</h2>
+	<article class="infos-user">
+		<h3>Vos informations personnelles</h3>
+		<form method="POST" action="" id="formModif">
+			<div class="form_row">
+				<div class="form">
+					<label>NOM</label>
+					<input type="text" name="lastname" value="{{ user.lastname }}" required/>
+				</div>
+				<div class="form">
+					<label>PRENOM</label>
+					<input type="text" name="firstname" value="{{ user.firstname }}" required/>
+				</div>
+			</div>
+			<div class="form">
+				<label>ADRESSE</label>
+				<input type="text" name="address" value="{{ user.address }}" required/>
+			</div>
+			<div class="form_row">
+				<div class="form">
+					<label>Code Postal</label>
+					<input type="text" name="zipCode" value="{{ user.zipCode }}" required/>
+				</div>
+				<div class="form">
+					<label>VILLE</label>
+					<input type="text" name="city" value="{{ user.city }}" required/>
+				</div>
+			</div>
+			<div class="form">
+				<label>PAYS</label>
+				<input type="text" name="country" value="{{ user.country }}" required/>
+			</div>
+			<div class="form">
+				<label>TEL</label>
+				<input type="tel" name="phone" value="{{ user.phone }}" required/>
+			</div>
+			<div class="form_row">
+				<div class="form">
+					<label>MAIL</label>
+					<input type="email" name="mail" value="{{ user.mail }}" disabled/>
+				</div>
+			</div>
+			<button type="submit">Modifier</button>
+		</form>
+
+
+		<form method="POST" action="" id="formModif">
+            <div class="form">
+					<label>PASSWORD ANCIEN</label>
+					<input type="password" name="passwordOld" value="" required/>
+            </div>
+			<div class="form_row">
+				<div class="form">
+					<label>PASSWORD</label>
+					<input type="password" name="password" value="" required/>
+				</div>
+				<div class="form">
+					<label>PASSWORD VERIF</label>
+					<input type="password" name="passwordVerify" value="" required/>
+				</div>
+			</div>
+            <button type="submit">Modifier</button>
+        </form>
+	</article>
+
+	<article class="order-user">
+		<h3>Votre historique de commandes</h3>
+		<div class="order-list">
+			<ul>
+			{% for order in orders %}
+				<li><a href="{{ order.url }}">Commande n°{{ order.id }}</a></li>
+			{% endfor %}
+		
+			
+			</ul>
+		</div>
+	</article>
+</section>
+
+{% endblock %}

@@ -1,42 +1,20 @@
-<form action="" method="post">
-    <form method="POST" action="" id="formPurchase">
-		<div class="form_row">
-			<div class="form">
-				<label>NOM</label>
-				<input type="text" name="lastname" value="" required/>
-			</div>
-			<div class="form">
-				<label>PRENOM</label>
-				<input type="text" name="firstname" value="" required/>
-			</div>
-		</div>
-		<div class="form">
-			<label>ADRESSE</label>
-			<input type="text" name="address" value="<?= $user["address"] ?>" required/>
-		</div>
-		<div class="form_row">
-			<div class="form">
-				<label>Code Postal</label>
-				<input type="text" name="zipCode" value="<?= $user["zipCode"] ?>" required/>
-			</div>
-			<div class="form">
-				<label>VILLE</label>
-				<input type="text" name="city" value="<?= $user["city"] ?>" required/>
-			</div>
-		</div>
-		<div class="form">
-			<label>PAYS</label>
-			<input type="text" name="country" value="<?= $user["country"] ?>" required/>
-		</div>
-		<div class="form_row">
-			<div class="form">
-				<label>TEL</label>
-				<input type="tel" name="phone" value="<?= $user["phone"] ?>" required/>
-			</div>
-			<div class="form">
-				<label>MAIL</label>
-				<input type="text" name="mail" value="<?= $user["mail"] ?>" disabled/>
-			</div>
-        </div>
-    </form>
-</form>
+<section class="confirm">
+	<h2>Commande n°</h2>
+	<table>
+		<thead>
+			<th>Nom</th>
+			<th>Prix TTC</th>
+			<th>Nombre</th>
+			<th>Total</th>
+		</thead>
+		<tbody>
+			<td>blabla</td>
+			<td>prix</td>
+			<td>qty</td>
+			<td>total</td>
+		</tbody>
+		<tfoot>
+			<th>Prix total</th>
+		</tfoot>
+	</table>
+</section>

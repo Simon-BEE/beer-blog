@@ -3,43 +3,44 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+<p>{{ user.lastname }}</p>
     <form method="POST" action="" id="formPurchase">
 		<div class="form_row">
 			<div class="form">
 				<label>NOM</label>
-				<input type="text" name="lastname" value="" required/>
+				<input type="text" name="lastname" value="{{ user.lastname }}" required/>
 			</div>
 			<div class="form">
 				<label>PRENOM</label>
-				<input type="text" name="firstname" value="" required/>
+				<input type="text" name="firstname" value="{{ user.firstname }}" required/>
 			</div>
 		</div>
 		<div class="form">
 			<label>ADRESSE</label>
-			<input type="text" name="address" value="" required/>
+			<input type="text" name="address" value="{{ user.address }}" required/>
 		</div>
 		<div class="form_row">
 			<div class="form">
 				<label>Code Postal</label>
-				<input type="text" name="zipCode" value="" required/>
+				<input type="text" name="zipCode" value="{{ user.zipCode }}" required/>
 			</div>
 			<div class="form">
 				<label>VILLE</label>
-				<input type="text" name="city" value="" required/>
+				<input type="text" name="city" value="{{ user.city }}" required/>
 			</div>
 		</div>
 		<div class="form">
 			<label>PAYS</label>
-			<input type="text" name="country" value="" required/>
+			<input type="text" name="country" value="{{ user.country }}" required/>
 		</div>
 		<div class="form_row">
 			<div class="form">
 				<label>TEL</label>
-				<input type="tel" name="phone" value="" required/>
+				<input type="tel" name="phone" value="{{ user.phone }}" required/>
 			</div>
 			<div class="form">
 				<label>MAIL</label>
-				<input type="text" name="mail" value="" required/>
+				<input type="text" name="mail" value="{{ user.mail }}" required/>
 			</div>
 		</div>
 		<table>
@@ -56,13 +57,18 @@
                     <tr>
 						<td>{{ beer.name }}</td>
 						<td id="PHT_{{ beer.id }}">{{ beer.price }}€</td>
-						<td id="PTTC_{{ beer.id }}">{{ beer.price }}€</td>
-						<td><input type="number" min="0" name="qty{{ beer.id }}" value="0" oninput="calcPrice(this, {{ beer.id }}, {{ beer.price }});" /></td>
+						<td id="PTTC_{{ beer.id }}">{{ beer.price * 1.2 }}€</td>
+						<td><input type="number" min="0" name="qty[{{ beer.id }}]" value="0" oninput="calcPrice(this, {{ beer.id }}, {{ beer.price }});" /></td>
 					</tr>
                 {% endfor %}
 			</tbody>
 		</table>
+		{% if user %}
 		<button type="submit">COMMANDER</button>
+		{% else %}
+			<button type="submit" disabled>COMMANDER</button>
+			<p>Inscrivez-vous pour pouvoir commander !</p>
+		{% endif %}
 	</form>
 	<script src="/assets/js/scripts.js"></script>
 {% endblock %}

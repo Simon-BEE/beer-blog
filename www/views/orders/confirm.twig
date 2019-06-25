@@ -1,0 +1,38 @@
+{% extends "/layout/default.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<section class="confirm">
+	<h2>Commande n°{{ order.id }}</h2>
+	<table>
+		<thead>
+			<tr>
+                <th>Nom</th>
+                <th>Prix TTC</th>
+                <th>Nombre</th>
+                <th>Total</th>
+            </tr>
+		</thead>
+		<tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.qty }}</td>
+                <td>{{ product.price * product.qty }}</td>
+            </tr>
+        {% endfor %}
+			
+			
+		</tbody>
+		<tfoot>
+            <tr>
+			    <th colspan="4">{{ order.priceTTC }}</th>
+            </tr>
+		</tfoot>
+	</table>
+</section>
+
+{% endblock %}
