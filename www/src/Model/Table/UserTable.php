@@ -29,4 +29,24 @@ class UserTable extends Table
         ];
         return $this->query($sql, $attributes);
     }
+
+    public function updateInfo($lastname, $firstname, $address, $zipCode, $city, $country, $phone, $id)
+    {
+        $sql = "UPDATE user SET 
+                    lastname = '$lastname',
+                    firstname = '$firstname',
+                    address	= '$address',
+                    zipCode	= '$zipCode',
+                    city	= '$city',
+                    country	= '$country',
+                    phone   = '$phone'
+                WHERE id_user = ?";
+        return $this->query($sql,[$id]);
+    }
+
+    public function updatePwd($password, $id)
+    {
+        $sql = "UPDATE user SET password = '$password' WHERE id_user = ?";
+        return $this->query($sql, [$id]);
+    }
 }

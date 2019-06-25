@@ -71,7 +71,7 @@ class UserEntity extends Entity
         return $this->mail;
     }
 
-    public function getPassword(): string
+    public function getPwd(): string
     {
         return $this->password;
     }

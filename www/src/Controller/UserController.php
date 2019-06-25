@@ -14,14 +14,7 @@ class UserController extends Controller
     public function register()
     {
         if (!empty($_SESSION['auth'])) {
-            $title = "Profile";
-            $this->render(
-                'user/profile',
-                [
-                    "title" => $title,
-                    "user" => $_SESSION['auth']
-                ]
-            );
+            header('location: /profile');
         }
         
         if (empty($_POST)) {
@@ -70,15 +63,7 @@ class UserController extends Controller
     public function connect()
     {
         if (!empty($_SESSION['auth'])) {
-            //header location
-            $title = "Profile";
-            $this->render(
-                'user/profile',
-                [
-                    "title" => $title,
-                    "user" => $_SESSION['auth']
-                ]
-            );
+            header('location: /profile');
         }
 
         if (empty($_POST)) {
@@ -93,17 +78,10 @@ class UserController extends Controller
 
         if (isset($_POST["mail"]) && !empty($_POST["mail"]) && isset($_POST["password"]) && !empty($_POST["password"])) {
             $user = $this->user->exist($_POST["mail"]);
-            if ($user && password_verify($_POST["password"], $user->getPassword())) {
+            if ($user && password_verify($_POST["password"], $user->getPwd())) {
                 $auth = $this->connected($user);
-                //rediriger sur page profil
-                $title = "Bienvenue, ". $auth->getFirstname() ."!";
-                $this->render(
-                    'user/profile',
-                    [
-                        "title" => $title,
-                        "user" => $auth
-                    ]
-                );
+                header('location: /profile');
+                exit();
             }else{
                 die('Erreur d\'identification');
             }
@@ -113,24 +91,53 @@ class UserController extends Controller
     public function profile()
     {
         if(empty($_SESSION['auth'])){
-            $title = "Connexion";
-            $this->render(
-                'user/connect',
-                [
-                    "title" => $title
-                ]
-            );
+            header("location: /connect");
             exit();
         }
+
         $auth = $_SESSION['auth'];
+
+        if (isset($_POST["lastname"]) && !empty($_POST["lastname"]) &&
+		isset($_POST["firstname"]) && !empty($_POST["firstname"]) &&
+		isset($_POST["address"]) && !empty($_POST["address"]) &&
+		isset($_POST["zipCode"]) && !empty($_POST["zipCode"]) &&
+		isset($_POST["city"]) && !empty($_POST["city"]) &&
+		isset($_POST["country"]) && !empty($_POST["country"]) &&
+		isset($_POST["phone"]) && !empty($_POST["phone"])) {
+            if ((int)$_POST['id'] === $auth->getId()) {
+                $this->user->updateInfo(
+                    $_POST["lastname"], $_POST["firstname"], $_POST["address"], $_POST["zipCode"],
+                    $_POST["city"], $_POST["country"], $_POST["phone"], $_POST['id']
+                );
+                $user = $this->user->exist($_POST["mail"]);
+                header('location: /profile');
+            }else{
+                die('coquin ;)');
+            }
+        }
+
+        if (isset($_POST["passwordOld"]) && !empty($_POST["passwordOld"]) && 
+            isset($_POST["password"]) && !empty($_POST["password"]) &&
+            isset($_POST["passwordVerify"]) && !empty($_POST["passwordVerify"])) {
+            if ($_POST["password"] === $_POST["passwordVerify"]) {
+                if (password_verify($_POST["passwordOld"], $auth->getPwd()) && (int)$_POST['id'] === $auth->getId()) {
+                    $password = password_hash(htmlspecialchars($_POST["password"]), PASSWORD_BCRYPT);
+                    $this->user->updatePwd($password, $_POST['id']);
+                }else{
+                    die('erreur');
+                }
+            }else{
+                die('password non identique');
+            }
+        }
+
         $orders = $this->orders->allById($auth->getId());
-        dump($orders);
         $title = "Profile";
         $this->render(
             'user/profile',
             [
                 "title" => $title,
-                "user" => $auth,
+                "user" => $_SESSION['auth'],
                 "orders" => $orders
             ]
         );

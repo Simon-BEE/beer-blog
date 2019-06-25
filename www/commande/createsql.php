@@ -32,7 +32,7 @@ $etape = $pdo->exec("CREATE TABLE `user` (
     `phone` varchar(255) NOT NULL,
     `mail` varchar(255) NOT NULL,
     `password` varchar(255) NOT NULL
-  ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 echo "||";
 $pdo->exec("CREATE TABLE post_category(
             post_id INT UNSIGNED NOT NULL,
