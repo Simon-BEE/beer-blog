@@ -1,7 +1,7 @@
 <article class="one-post background">
-    <img src="https://picsum.photos/100?random=1" alt="random pic">
+    <img class="random-pic" alt="random pic">
     <div class="content-article">
-        <h3>{{ post.name }}</h3>
+        <h3>{{ post.name |slice(0, 35) }}</h3>
         <p>{{ post.getExcerpt(200) }}</p>
         <p><a href="{{ post.url }}">Read more</a></p>
     </div>
