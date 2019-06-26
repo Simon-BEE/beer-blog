@@ -3,7 +3,8 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<p>{{ user.lastname }}</p>
+<section class="order">
+	<p>Bonjour {{ user.lastname }}</p>
     <form method="POST" action="" id="formPurchase">
 		<div class="form_row">
 			<div class="form">
@@ -70,5 +71,6 @@
 			<p>Inscrivez-vous pour pouvoir commander !</p>
 		{% endif %}
 	</form>
+</section>
 	<script src="/assets/js/scripts.js"></script>
 {% endblock %}

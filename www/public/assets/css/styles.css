@@ -7,10 +7,7 @@ body{
     background: #fbf3e0;
     font-family: 'Roboto', sans-serif;
 }
-h2{
-    font-size: 1.7em;
-    letter-spacing: 4px;
-}
+
 
 section{
     box-shadow: 1px 10px 10px #dfdfdf;
@@ -101,6 +98,11 @@ section .index{
         height: 80px;
     }
 
+    h2{
+        font-size: 1.7em;
+        letter-spacing: 4px;
+    }
+
     .content, .articles{
         display: flex;
         flex-wrap: wrap;
@@ -161,6 +163,11 @@ section .index{
         padding: 0;
     }
 
+    h2{
+        font-size: 1.2em;
+        letter-spacing: 4px;
+    }
+
     .content, .articles{
         display: flex;
         flex-direction: column;
@@ -180,12 +187,18 @@ section .index{
         padding: 3%;
     }
 
+    .one-post > *{
+        margin: 5% 0;
+    }
+
     .one-post img{
         border-radius: 2%;
         height: 100px;
     }
     
     .one-post h3{
+        font-size: 1em;
+        letter-spacing: 4px;
     }
 
     .content-article{
@@ -302,6 +315,22 @@ section .index{
     color: #1B1B1E;
 }
 
+/***********FORM***********/
+
+.order{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.order > *{
+    margin: 2% 0;
+}
+
+.form_row{
+    display: flex;
+}
+
 /***********TABLE***********/
 
 table, td, th, tr{
@@ -316,7 +345,7 @@ footer{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 200px;
+    height: 100%;
     color: #fff;
     font-family: 'Open Sans', sans-serif;
     font-size: 0.9em;
@@ -327,8 +356,10 @@ footer > *{
 }
 
 footer .social{
-    width: 50%;
+    width: 60%;
     text-align: center;
+    padding: 2% 0;
+
 }
 
 footer i{
@@ -385,6 +416,7 @@ footer i{
     }
     .menu .burger:checked:before {
         content: 'X'; 
+        margin-left: -20px;
     }
     .menu nav {
         background-color: #1B1B1E;

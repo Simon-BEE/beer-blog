@@ -21,8 +21,7 @@ class CategoryController extends Controller
             $this->category,
             $this->generateUrl('categories')
         );
-
-        $categories = $paginatedQuery->getItems();
+        
         $title = "Catégories";
 
         $this->render(
