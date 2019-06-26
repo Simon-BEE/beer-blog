@@ -35,25 +35,21 @@ class OrdersController extends Controller
             $quantity = $_POST['qty'];
             $id_user = $auth->getId();
             $this->orders->purchase($beerArray, $quantity, $id_user);
-            $this->render(
-                'orders/order',
-                [
-                    "title" => $title,
-                    "beers" => $beers,
-                    "user" => $user
-                ]
-            );
+            $id = $this->orders->lastId();
+            $url = $this->generateUrl('orders', ['id' => $id, 'id_user' => $id_user]);
+            header('location: '.$url);
         }
     }
 
     public function confirm($id, $id_user)
     {
         $order = $this->orders->find($id);
-        $products = unserialize($order->getProducts());
 
         if (!$order) {
             throw new \Exception('Aucun article ne correspond à cet ID');
         }
+
+        $products = unserialize($order->getProducts());
 
         if ($order->getIdUser() !== $id_user) {
             $url = $this->generateUrl('orders', ['id' => $id, 'id_user' => $order->getIdUser()]);

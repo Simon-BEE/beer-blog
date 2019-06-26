@@ -1,7 +1,7 @@
 <?php
 require_once '/var/www/vendor/autoload.php';
 
-$pdo = new PDO('mysql:dbname=beer;host=beer.mysql;charset=UTF8', 'userbeer', 'beerpwd');
+$pdo = new PDO('mysql:dbname=beer;host=beer.mysql;', 'userbeer', 'beerpwd');
 
 //creation tables
 echo "[";
@@ -22,7 +22,7 @@ $etape = $pdo->exec("CREATE TABLE category(
         )");
 echo "||";
 $etape = $pdo->exec("CREATE TABLE `user` (
-    `id_user` int(11) NOT NULL,
+    `id_user` int(11) NOT NULL AUTO_INCREMENT,
     `lastname` varchar(255) NOT NULL,
     `firstname` varchar(255) NOT NULL,
     `address` varchar(255) NOT NULL,
@@ -31,8 +31,11 @@ $etape = $pdo->exec("CREATE TABLE `user` (
     `country` varchar(255) NOT NULL,
     `phone` varchar(255) NOT NULL,
     `mail` varchar(255) NOT NULL,
-    `password` varchar(255) NOT NULL
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+    `password` varchar(255) NOT NULL,
+    `token` varchar(255),
+    `createdAt` datetime default CURRENT_TIMESTAMP,
+    PRIMARY KEY(id_user)
+    )");
 echo "||";
 $pdo->exec("CREATE TABLE post_category(
             post_id INT UNSIGNED NOT NULL,
@@ -51,18 +54,20 @@ $pdo->exec("CREATE TABLE post_category(
         )");
 echo "||";
 $pdo->exec("CREATE TABLE `beer` (
-    `id` int(11) NOT NULL,
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
     `slug` varchar(255) NOT NULL,
     `img` text NOT NULL,
     `content` longtext NOT NULL,
-    `price` float NOT NULL)");
+    `price` float NOT NULL,
+    PRIMARY KEY(id))");
 echo "||";
 $pdo->exec("CREATE TABLE `orders` (
-    `id` int(11) NOT NULL,
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `id_user` int(11) NOT NULL,
     `ids_product` longtext NOT NULL,
-    `priceTTC` float NOT NULL)");
+    `priceTTC` float NOT NULL,
+    PRIMARY KEY(id))");
 echo "||";
 
 //vidage table
@@ -115,15 +120,6 @@ $pdo->exec("INSERT INTO user SET
         username='admin',
         password='{$password}'");
 echo "||]";
-
-$pdo->exec("INSERT INTO `orders` (`id`, `id_user`, `ids_product`, `priceTTC`) VALUES
-(1, 1, 'a:3:{i:0;a:2:{s:3:\"qty\";s:2:\"10\";s:5:\"price\";s:4:\"1.91\";}i:1;a:2:{s:3:\"qty\";s:1:\"5\";s:5:\"price\";s:4:\"2.24\";}i:2;a:2:{s:3:\"qty\";s:2:\"10\";s:5:\"price\";s:4:\"1.74\";}}', 57.24),
-(2, 1, 'a:3:{i:0;a:2:{s:3:\"qty\";s:2:\"10\";s:5:\"price\";s:4:\"1.91\";}i:1;a:2:{s:3:\"qty\";s:1:\"5\";s:5:\"price\";s:4:\"2.24\";}i:2;a:2:{s:3:\"qty\";s:2:\"10\";s:5:\"price\";s:4:\"1.74\";}}', 57.24),
-(3, 1, 'a:3:{i:0;a:2:{s:3:\"qty\";s:2:\"10\";s:5:\"price\";s:4:\"1.91\";}i:1;a:2:{s:3:\"qty\";s:1:\"5\";s:5:\"price\";s:4:\"2.24\";}i:2;a:2:{s:3:\"qty\";s:2:\"10\";s:5:\"price\";s:4:\"1.74\";}}', 57.24),
-(4, 1, 'a:3:{i:0;a:2:{s:3:\"qty\";s:1:\"8\";s:5:\"price\";s:4:\"1.66\";}i:1;a:2:{s:3:\"qty\";s:1:\"2\";s:5:\"price\";s:4:\"2.24\";}i:2;a:2:{s:3:\"qty\";s:1:\"9\";s:5:\"price\";s:4:\"1.29\";}}', 35.244),
-(5, 1, 'a:3:{i:0;a:2:{s:3:\"qty\";s:1:\"9\";s:5:\"price\";s:4:\"1.91\";}i:1;a:2:{s:3:\"qty\";s:2:\"11\";s:5:\"price\";s:4:\"2.24\";}i:2;a:2:{s:3:\"qty\";s:2:\"13\";s:5:\"price\";s:4:\"2.24\";}}', 85.14),
-(6, 1, 'a:3:{i:0;a:2:{s:3:\"qty\";s:2:\"14\";s:5:\"price\";s:4:\"1.91\";}i:1;a:2:{s:3:\"qty\";s:2:\"16\";s:5:\"price\";s:4:\"1.29\";}i:2;a:2:{s:3:\"qty\";s:2:\"25\";s:5:\"price\";s:4:\"1.74\";}}', 109.056),
-(7, 1, 'a:3:{i:4;a:2:{s:3:\"qty\";s:2:\"15\";s:5:\"price\";s:4:\"2.08\";}i:5;a:2:{s:3:\"qty\";s:2:\"15\";s:5:\"price\";s:4:\"2.24\";}i:8;a:2:{s:3:\"qty\";s:1:\"7\";s:5:\"price\";s:4:\"1.74\";}}', 92.376)");
 
 $pdo->exec("INSERT INTO `beer` (`id`, `name`, `slug`, `img`, `content`, `price`) VALUES
 (1, 'La Chouffe', 'la-chouffe', 'https://www.beerwulf.com/globalassets/catalog/beerwulf/beers/la-chouffe-blonde-d-ardenne_opt.png?h=500&rev=899257661', 'Bière dorée légèrement trouble à mousse dense, avec un parfum épicé aux notes d’agrumes et de coriandre qui ressortent également au goût.', 1.91),

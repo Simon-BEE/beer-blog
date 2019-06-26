@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use \Core\Controller\Controller;
+use Core\Controller\Helpers\MailController;
 
 class UserController extends Controller
 {
@@ -46,11 +47,18 @@ class UserController extends Controller
                 $user = $this->user->exist($_POST["mail"]);
                 if (!$user) {
                     $password = password_hash(htmlspecialchars($_POST["password"]), PASSWORD_BCRYPT);
+                    $token = substr(md5(uniqid()), 10, 20);
                     $this->user->register(
                         $_POST["lastname"], $_POST["firstname"], $_POST["address"], $_POST["zipCode"],
-                        $_POST["city"], $_POST["country"], $_POST["phone"], $_POST["mail"], $password);
-                        //rediriger sur page profil
-                        header('location: /connect');
+                        $_POST["city"], $_POST["country"], $_POST["phone"], $_POST["mail"], $password, $token);
+        
+                    $id_user = $this->user->exist($_POST["mail"])->getId();
+                    $url = $this->generateUrl('checking', ['token' => $token, 'id_user' => $id_user]);
+                    $msg = ["html" => "Veuillez cliquer sur le lien pour confirmer votre compte!<br/>
+                            <a href='http://localhost".$url."'>http://localhost".$url."</a>"];
+                    MailController::envoiMail("Confirmation compte", $_POST["mail"], $msg);
+                    //rediriger sur page profil
+                    header('location: /connect');
                 }else{
                     die('Adresse mail déjà enregistré');
                 }
@@ -60,10 +68,36 @@ class UserController extends Controller
         }
     }
 
+    public function checking($token, $id)
+    {
+        $title = "Verification d\'email";
+        $token_check = $this->user->findBy("token", $token);
+        $id_check = $this->user->findBy("id_user", $id);
+
+        if($token_check[0] == $id_check[0]){
+            $this->user->deleteToken($id);
+            $check = 'ok';
+            $this->render(
+            'user/checking',
+                [
+                    "title" => $title,
+                    "check" => $check
+                ]
+            );
+        }else{
+            $this->render(
+                'user/checking',
+                [
+                    "title" => $title
+                ]);
+        }
+    }
+
     public function connect()
     {
         if (!empty($_SESSION['auth'])) {
             header('location: /profile');
+            exit();
         }
 
         if (empty($_POST)) {
@@ -79,9 +113,13 @@ class UserController extends Controller
         if (isset($_POST["mail"]) && !empty($_POST["mail"]) && isset($_POST["password"]) && !empty($_POST["password"])) {
             $user = $this->user->exist($_POST["mail"]);
             if ($user && password_verify($_POST["password"], $user->getPwd())) {
-                $auth = $this->connected($user);
-                header('location: /profile');
-                exit();
+                if ($user->getToken() === "") {
+                    $auth = $this->connected($user);
+                    header('location: /profile');
+                    exit();
+                }else{
+                    die('Veuillez vérifier vos email, afin de valider votre inscription.');
+                }
             }else{
                 die('Erreur d\'identification');
             }
@@ -109,7 +147,6 @@ class UserController extends Controller
                     $_POST["lastname"], $_POST["firstname"], $_POST["address"], $_POST["zipCode"],
                     $_POST["city"], $_POST["country"], $_POST["phone"], $_POST['id']
                 );
-                $user = $this->user->exist($_POST["mail"]);
                 header('location: /profile');
             }else{
                 die('coquin ;)');
@@ -123,6 +160,7 @@ class UserController extends Controller
                 if (password_verify($_POST["passwordOld"], $auth->getPwd()) && (int)$_POST['id'] === $auth->getId()) {
                     $password = password_hash(htmlspecialchars($_POST["password"]), PASSWORD_BCRYPT);
                     $this->user->updatePwd($password, $_POST['id']);
+                    header('location: /profile');
                 }else{
                     die('erreur');
                 }
@@ -130,14 +168,14 @@ class UserController extends Controller
                 die('password non identique');
             }
         }
-
+        $user = $this->user->exist($auth->getMail());
         $orders = $this->orders->allById($auth->getId());
         $title = "Profile";
         $this->render(
             'user/profile',
             [
                 "title" => $title,
-                "user" => $_SESSION['auth'],
+                "user" => $user,
                 "orders" => $orders
             ]
         );

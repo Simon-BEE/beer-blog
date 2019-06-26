@@ -11,11 +11,11 @@ class UserTable extends Table
         return $this->query("SELECT * FROM user WHERE mail = ?", [$mail], true, null);
     }
 
-    public function register( $lastname, $firstname, $address, $zipCode, $city, $country, $phone, $mail, $password )
+    public function register( $lastname, $firstname, $address, $zipCode, $city, $country, $phone, $mail, $password, $token)
     {
         $sql = "INSERT INTO `user` 
-        (`lastname`, `firstname`, `address`, `zipCode`, `city`, `country`, `phone`, `mail`, `password`) 
-        VALUES ( :lastname, :firstname, :address, :zipCode, :city, :country, :phone, :mail, :password)";
+        (`lastname`, `firstname`, `address`, `zipCode`, `city`, `country`, `phone`, `mail`, `password`, `token`) 
+        VALUES ( :lastname, :firstname, :address, :zipCode, :city, :country, :phone, :mail, :password, :token)";
         $attributes = [
             ":lastname"		=> htmlspecialchars($lastname),
             ":firstname"	=> htmlspecialchars($firstname),
@@ -25,7 +25,8 @@ class UserTable extends Table
             ":country"		=> htmlspecialchars($country),
             ":phone"		=> htmlspecialchars($phone),
             ":mail"			=> htmlspecialchars($mail),
-            ":password"		=> $password
+            ":password"		=> $password,
+            ":token"        => $token
         ];
         return $this->query($sql, $attributes);
     }
@@ -46,7 +47,11 @@ class UserTable extends Table
 
     public function updatePwd($password, $id)
     {
-        $sql = "UPDATE user SET password = '$password' WHERE id_user = ?";
-        return $this->query($sql, [$id]);
+        return $this->query("UPDATE user SET password = '$password' WHERE id_user = ?", [$id]);
+    }
+
+    public function deleteToken($id)
+    {
+        return $this->query("UPDATE user SET token = '' WHERE id_user = ?", [$id]);
     }
 }

@@ -1,0 +1,15 @@
+{% extends "/layout/default.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+{% if check %}
+    <p>Félicitations, vous venez de confirmer votre compte! Vous pouvez profiter pleinement du site.</p>
+    {% else %}
+    <p>Une erreur s'est produite, veuillez recliquer ou copier le lien de votre boîte email.</p>
+    <p>Votre compte peut déjà être activé! <a href="/connect/">Essayer</a></p>
+{% endif %}
+
+
+{% endblock %}

@@ -26,6 +26,10 @@ class UserEntity extends Entity
 
     private $password;
 
+    private $token;
+
+    private $createdAt;
+
     public function getId(): int
     {
         return $this->id_user;
@@ -74,6 +78,16 @@ class UserEntity extends Entity
     public function getPwd(): string
     {
         return $this->password;
+    }
+
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    public function getDate(): string
+    {
+        return $this->createdAt;
     }
 
     public function getUrl(): string

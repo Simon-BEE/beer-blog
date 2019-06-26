@@ -26,9 +26,19 @@ class Table
         return $this->query("SELECT COUNT(id) as nbrow FROM {$this->table}", null, true, null);
     }
 
+    public function lastId()
+    {
+        return $this->db->lastInsertId();
+    }
+
     public function find($id)
     {
         return $this->query("SELECT * FROM {$this->table} WHERE id=?", [$id], true);
+    }
+
+    public function findBy($what, $attributes)
+    {
+        return $this->query("SELECT * FROM {$this->table} WHERE $what = ?", [$attributes]);
     }
 
     public function query(string $statement, ?array $attributes = null, bool $one = false, ?string $class_name = null)
