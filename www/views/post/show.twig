@@ -5,6 +5,9 @@
     <article class="card">
         <h2>{{ post.name }}</h2>
         <div class="post-content">
+            <div class="post-img">
+                <img class="post-pic" alt="random picture" />
+            </div>
             <div class="post-cat">
                 <p>
                 {% for key, category in categories %}
@@ -37,7 +40,7 @@
         {% endif %}
         </div>
         <form class="posting" method="post">
-            <input type="email" name="mail" value="{{ user.mail }}" />
+            <input readonly type="email" name="mail" value="{{ user.mail }}" />
             <input type="text" name="login" placeholder="Pseudo" value="{{ user.firstname }}" />
             <input type="hidden" name="id" value="{{ user.id }}" />
             <textarea name="content" placeholder="Votre commentaire"></textarea>
