@@ -381,23 +381,105 @@ section .index{
     justify-content: center;
 }
 
-.form_row > *{
-    margin: 0 2%;
-}
-
 .order button, .register button{
     background: #857555;
     margin: 2% 0;
-    padding: 1%;
+    padding: 2%;
     border: none;
     color:#fff;
 }
 
+.register{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register h2{
+    margin: 2% 0 0;
+}
+
+.login-page {
+    width: 45%;
+    padding: 3% 0 0;
+    margin: auto;
+}
+
+.login-page a {
+    color: #857555;
+}
+.login-page p {
+    margin: 6% 0 0;
+}
+.form {
+    position: relative;
+    z-index: 1;
+    background: #CFA616;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1), 0 5px 5px 0 rgba(0, 0, 0, 0.1);
+}
+.form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 2%;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+input:disabled{
+    background: #ddd;
+    color: #aaa;
+}
+
 /***********TABLE***********/
+
+table{
+    text-align: center;
+}
+
+table input{
+    text-align: center;
+    padding: 2% !important;
+}
 
 table, td, th, tr{
     border-bottom: 1px solid #857555;
     padding: 2% 1%;
+}
+
+.table-confirm td, .table-confirm th, .table-confirm  tr{
+    padding: 4%;
+    width: 100%;
+}
+
+.confirm, .table-confirm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.confirm > *{
+    margin: 2% 0;
+}
+
+.table-confirm{
+    background: #cfa616;
+    padding: 2% 5%;
+    width: 30%;
+}
+
+table thead > *, table tfoot > *{
+    font-weight: bold;
+}
+
+th, td{
+    margin: 0 2%;
 }
 
 /***********FOOTER***********/

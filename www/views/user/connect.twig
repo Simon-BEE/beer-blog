@@ -5,22 +5,22 @@
 {% block content %}
 
 <section class="register">
-    <form method="POST" action="" id="formPurchase">
-    <div class="form_row">
-        <div class="form">
-            <label>MAIL</label>
-            <input type="email" name="mail" value="" required/>
-        </div>
+<h2>{{ title }}</h2>
+<div class="login-page">
+    <div class="form">
+        <form class="login-form" method="POST" action="" id="formPurchase">
+            <div class="form_row">
+                <input type="email" name="mail" placeholder="email"/>
+            </div>
+            <div class="form_row">
+                <input type="password" name="password" placeholder="mot de passe"/>
+            </div>
+            <button type="submit">Se connecter</button>
+            <p class="message">Pas encore enregistré? <a href="/register">Créer un compte!</a></p>
+        </form>
     </div>
+</div>
 
-    <div class="form_row">
-        <div class="form">
-            <label>PASSWORD</label>
-            <input type="password" name="password" value="" required/>
-        </div>
-    </div>
-    <button type="submit">Se connecter</button>
-</form>
 </section>
 
 {% endblock %}

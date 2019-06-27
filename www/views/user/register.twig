@@ -5,62 +5,39 @@
 {% block content %}
 
 <section class="register">
-    <form method="POST" action="" id="formPurchase">
-    <div class="form_row">
-        <div class="form">
-            <label>NOM</label>
-            <input type="text" name="lastname" value="" required/>
-        </div>
-        <div class="form">
-            <label>PRENOM</label>
-            <input type="text" name="firstname" value="" required/>
-        </div>
-    </div>
+<h2>{{ title }}</h2>
+<div class="login-page">
     <div class="form">
-        <label>ADRESSE</label>
-        <input type="text" name="address" value="" required/>
+        <form class="login-form" method="POST" action="" id="formPurchase">
+            <div class="form_row">
+                <input type="text" name="lastname" placeholder="nom" required/>
+                <input type="text" name="firstname" placeholder="prénom" required/>
+            </div>
+            <div class="form_row">
+                <input type="text" name="address" placeholder="adresse" required/>
+                <input type="text" name="zipCode" placeholder="code postal" required/>
+            </div>
+            <div class="form_row">
+                <input type="text" name="city" placeholder="ville" required/>
+                <input type="text" name="country" placeholder="pays" required/>
+            </div>
+            <div class="form_row">
+                <input type="tel" name="phone" placeholder="téléphone" required/>
+            </div>
+            <div class="form_row">
+                <input type="email" name="mail" placeholder="email"/>
+                <input type="email" name="mailVerify" placeholder="retaper email" required/>
+            </div>
+            <div class="form_row">
+                <input type="password" name="password" placeholder="mot de passe"/>
+                <input type="password" name="passwordVerify" placeholder="retaper mot de passe" required/>
+            </div>
+            <button type="submit">Se connecter</button>
+            <p class="message">Déjà enregistré? <a href="/register">Connectez vous!</a></p>
+        </form>
     </div>
-    <div class="form_row">
-        <div class="form">
-            <label>Code Postal</label>
-            <input type="text" name="zipCode" value="" required/>
-        </div>
-        <div class="form">
-            <label>VILLE</label>
-            <input type="text" name="city" value="" required/>
-        </div>
-    </div>
-    <div class="form">
-        <label>PAYS</label>
-        <input type="text" name="country" value="" required/>
-    </div>
-    <div class="form">
-        <label>TEL</label>
-        <input type="tel" name="phone" value="" required/>
-    </div>
-    <div class="form_row">
-        <div class="form">
-            <label>MAIL</label>
-            <input type="email" name="mail" value="" required/>
-        </div>
-        <div class="form">
-            <label>MAIL VERIF</label>
-            <input type="email" name="mailVerify" value="" required/>
-        </div>
-    </div>
+</div>
 
-    <div class="form_row">
-        <div class="form">
-            <label>PASSWORD</label>
-            <input type="password" name="password" value="" required/>
-        </div>
-        <div class="form">
-            <label>PASSWORD VERIF</label>
-            <input type="password" name="passwordVerify" value="" required/>
-        </div>
-    </div>
-    <button type="submit">S'enregistrer</button>
-</form>
 </section>
 
 {% endblock %}
