@@ -6,7 +6,7 @@
 
 <section class="profile">
 	<h2>Bienvenue, {{ user.firstname }}!</h2>
-	<article class="infos-user">
+	<section class="infos-user register">
 		<h3>Vos informations personnelles</h3>
 		<form method="POST" action="" id="formModif">
 			<div class="form_row">
@@ -70,7 +70,7 @@
 			<input type="hidden" name="id" value="{{ user.id }}" />
             <button type="submit">Modifier</button>
         </form>
-	</article>
+	</section>
 
 	<article class="order-user">
 		<h3>Votre historique de commandes</h3>

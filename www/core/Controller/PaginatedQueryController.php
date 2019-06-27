@@ -54,6 +54,14 @@ class PaginatedQueryController
         return $this->items;
     }
 
+    public function getThirdItems($ids): array
+    {
+        if ($this->items === null) {
+            $this->items = $this->classTable->lastThirdItems($ids);
+        }
+        return $this->items;
+    }
+
     public function getNav(): array
     {
         $uri = $this->url;

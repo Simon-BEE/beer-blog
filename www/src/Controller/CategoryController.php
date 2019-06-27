@@ -21,7 +21,12 @@ class CategoryController extends Controller
             $this->category,
             $this->generateUrl('categories')
         );
-        
+        $categories = $paginatedQuery->getItems();
+        foreach ($categories as $category) {
+            $postsByCateg[$category->getId()] = $this->category->lastThirdItems($category->getId());
+        }
+        // dump($categories);
+        // dd($postsByCateg);
         $title = "Catégories";
 
         $this->render(
@@ -29,6 +34,7 @@ class CategoryController extends Controller
             [
                 "title" => $title,
                 "categories" => $categories,
+                "postsByCateg" => $postsByCateg,
                 "paginate" => $paginatedQuery->getNavHTML()
             ]
         );

@@ -8,12 +8,6 @@ body{
     font-family: 'Roboto', sans-serif;
 }
 
-
-section{
-    box-shadow: 1px 10px 10px #dfdfdf;
-    padding: 4%;
-}
-
 a{
     color: #CFA616;
     text-decoration: none;
@@ -227,14 +221,6 @@ section .index{
     color: #fff;
 }
 
-
-
-
-
-
-
-
-
 .subscribe{
     background: #857555;
     color: #fff;;
@@ -282,12 +268,67 @@ section .index{
 
 /*************************CATEGORIES*************************/
 
-.categories .list-cat{
+.page-cat{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
+    padding: 2%;
+}
+
+.page-cat h2{
+    margin-bottom: 2%;
+}
+
+.best-one{
+	display: flex;
+	align-items: center;
+	padding: 0 5%;
+}
+
+.best{
+    display: flex;
+    flex-direction: column;
     align-items: center;
 }
+
+.best-content{
+	display: flex;
+	flex-direction: column;
+}
+
+.best-img img{
+	border-radius: 5px;
+}
+
+.best-content a{
+	text-align: right;
+}
+
+@media (max-width: 767px){
+	.best-text{
+		color:#ccc;
+		font-size: 0.7em;
+	}
+
+	.best-content a{
+		font-size: 0.7em;
+	}
+
+	.best-content > *{
+		padding: 0 0 0 2%;
+	}
+
+	.ad-content img{
+		width: 100%;
+	}
+}
+
+.cat-acc{width:90%}
+.accordion{background-color:#CFA616;color:#444;cursor:pointer;padding:4%;width:100%;border:none;outline:0;transition:.4s}
+.accordion:hover{background-color:#857555}
+.active{background-color:#fff}
+.panel{background-color:#fff;display:none;overflow:hidden;width:100%;padding:3%0}
+.panel>*{width:100%;text-align:center;}
 
 /*************************PAGINATION*************************/
 
@@ -327,14 +368,36 @@ section .index{
     margin: 2% 0;
 }
 
+.order form, .register form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .form_row{
     display: flex;
+    margin: 5% 0;
+    justify-content: center;
+}
+
+.form_row > *{
+    margin: 0 2%;
+}
+
+.order button, .register button{
+    background: #857555;
+    margin: 2% 0;
+    padding: 1%;
+    border: none;
+    color:#fff;
 }
 
 /***********TABLE***********/
 
 table, td, th, tr{
-    border: 1px solid black;
+    border-bottom: 1px solid #857555;
+    padding: 2% 1%;
 }
 
 /***********FOOTER***********/

@@ -19,11 +19,11 @@ class CategoryTable extends Table
         return $this->query("SELECT * FROM {$this->table} LIMIT {$limit}  OFFSET {$offset}");
     }
 
-    public function lastThirdById($id)
+    public function lastThirdItems($ids)
     {
         return $this->query("SELECT *
-                            FROM post 
-                            LEFT JOIN post_category on post.id = post_category.post_id
-                            WHERE category_id IN (" . $id . ") ORDER BY id DESC LIMIT 3");
+                            FROM post_category 
+                            LEFT JOIN post on post_category.post_id = post.id
+                            WHERE category_id IN (" . $ids . ") ORDER BY id DESC LIMIT 3");
     }
 }
