@@ -24,9 +24,12 @@
                         <li><a href="/posts">Posts</a></li>
                         <li><a href="/beers">Beers</a></li>
                         <li><a href="/order">Order</a></li>
+                        {% if user is empty %}
                         <li><a href="/register">Register</a></li>
                         <li><a href="/connect">Connect</a></li>
+                        {% else %}
                         <li><a href="/profile">Profile</a></li>
+                        {% endif %}
                     </ul>
                 </nav>
             </div>
