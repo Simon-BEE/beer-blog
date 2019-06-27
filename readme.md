@@ -4,21 +4,21 @@ Intégration du site bière en MVC, avec le blog en supplément.
 
 ## Liste des maquettes ##
 
-![maquette mobile index](/assets/img/MobileIndex.png)
+![maquette mobile index](/www/public/assets/img/MobileIndex.png)
 
-![maquette mobile posts](/assets/img/MobilePosts.png)
+![maquette mobile posts](/www/public/assets/img/MobilePosts.png)
 
-![maquette mobile categories](/assets/img/MobileCateg.png)
+![maquette mobile categories](/www/public/assets/img/MobileCateg.png)
 
-![maquette mobile beers](/assets/img/MobileBeers.png)
+![maquette mobile beers](/www/public/assets/img/MobileBeers.png)
 
-![maquette large index](/assets/img/LargeIndex.png)
+![maquette large index](/www/public/assets/img/LargeIndex.png)
 
-![maquette large posts](/assets/img/LargePosts.png)
+![maquette large posts](/www/public/assets/img/LargePosts.png)
 
-![maquette large categories](/assets/img/LargeCateg.png)
+![maquette large categories](/www/public/assets/img/LargeCateg.png)
 
-![maquette large beers](/assets/img/LargeBeers.png)
+![maquette large beers](/www/public/assets/img/LargeBeers.png)
 
 ## Mes objectifs ##
 
