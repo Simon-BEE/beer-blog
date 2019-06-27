@@ -10,11 +10,16 @@
 	<article class="order-user">
 		<h3>Votre historique de commandes</h3>
 		<div class="order-list">
-			<ul>
+        {% if orders is empty %}
+            <p>Aucune commande passée</p>
+        {% else %}
+            <ul>
 			{% for order in orders %}
 				<li><a href="{{ order.url }}">Commande n°{{ order.id }}</a></li>
 			{% endfor %}
 			</ul>
+        {% endif %}
+			
 		</div>
 	</article>
 </section>

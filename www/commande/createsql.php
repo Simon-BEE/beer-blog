@@ -69,6 +69,15 @@ $pdo->exec("CREATE TABLE `orders` (
     `priceTTC` float NOT NULL,
     PRIMARY KEY(id))");
 echo "||";
+$pdo->exec("CREATE TABLE comment (
+    `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `post_id` INT not null,
+    `user_id` INT not null,
+    `name` VARCHAR(255) not null,
+    `content` TEXT(65000) NOT null,
+    `postedAt` datetime default CURRENT_TIMESTAMP
+    )");
+echo "||";
 
 //vidage table
 $pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
@@ -78,6 +87,7 @@ $pdo->exec('TRUNCATE TABLE user');
 $pdo->exec('TRUNCATE TABLE orders');
 $pdo->exec('TRUNCATE TABLE beer');
 $pdo->exec('TRUNCATE TABLE category');
+$pdo->exec('TRUNCATE TABLE comments');
 $pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
 echo "||||||||||||";
 $faker = Faker\Factory::create('fr_FR');

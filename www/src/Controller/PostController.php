@@ -10,6 +10,8 @@ class PostController extends Controller
     {
         $this->loadModel('post');
         $this->loadModel('category');
+        $this->loadModel('comment');
+        $this->loadModel('user');
     }
 
     public function all()
@@ -18,9 +20,7 @@ class PostController extends Controller
             $this->post,
             $this->generateUrl('posts')
         );
-
         $postById = $paginatedQuery->getItems();
-
         $title = 'Tous les posts';
         $this->render(
             'post/all',
@@ -34,23 +34,24 @@ class PostController extends Controller
 
     public function show(string $slug, int $id)
     {
-
         $post = $this->post->find($id);
-
         if (!$post) {
             throw new \Exception('Aucun article ne correspond à cet ID');
         }
-
         if ($post->getSlug() !== $slug) {
             $url = $this->generateUrl('post', ['id' => $id, 'slug' => $post->getSlug()]);
-
             http_response_code(301);
             header('Location: ' . $url);
             exit();
         }
 
+        if (!empty($_SESSION['auth'])) {
+            $user = $_SESSION['auth'];
+        }else{
+            $user = false;
+        }
         $categories = $this->category->allInId($post->getId());
-
+        $comments = $this->comment->allInId($post->getId());
         $title = "article : " . $post->getName();
 
         $this->render(
@@ -58,8 +59,39 @@ class PostController extends Controller
             [
                 "title" => $title,
                 "categories" => $categories,
-                "post" => $post
+                "post" => $post,
+                "comments" => $comments,
+                "user" => $user
             ]
         );
+    }
+
+    public function comment(string $slug, int $id){
+        if (empty($_POST)) {
+            header('location: /posts');
+        }
+        
+        if (isset($_POST['mail']) && !empty($_POST['mail']) && 
+            isset($_POST['login']) && !empty($_POST['login']) && 
+            isset($_POST['content']) && !empty($_POST['content']) &&
+            isset($_POST['id']) && !empty($_POST['id'])) {
+
+            $name = htmlspecialchars($_POST['login']);
+            $content = htmlspecialchars($_POST['content']);
+            $id_user = $_POST['id'];
+            $verif = $this->user->exist($_POST["mail"]);
+
+            if ($verif) {
+
+                $this->comment->post($id, $id_user, $name, $content);
+                $url = $this->generateUrl('post', ['id' => $id, 'slug' => $slug]);
+                header('location: '.$url);
+            }else{
+                die('veuillez vous enregistrer');
+            }
+
+        }else{
+            die('erreur');
+        }
     }
 }
