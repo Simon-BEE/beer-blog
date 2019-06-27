@@ -16,8 +16,22 @@
                 </p>
             </div>
             <p>{{ post.content }}</p>
-            <p>{{ post.created_at | date('d/m/Y h:i')}}</p>
+            <p class="time">{{ post.created_at | date('d/m/Y h:i')}}</p>
         </div>
+    </article>
+
+    <article class="commentary">
+        <div class="inside">
+            <div class="one-comment">
+                <p class="bold">Jack <span class="small">22/08/2017 14:30</span> :</p>
+                <p>They are visible to anyone that views the page source code, but are not rendered when the HTML document is rendered by a browser.</p>
+            </div>
+        </div>
+        <form class="posting">
+            <input type="text" name="login" placeholder="Your login">
+            <textarea placeholder="Comment here"></textarea>
+            <button>Send</button>
+        </form>
     </article>
 </section>
 {% endblock %}

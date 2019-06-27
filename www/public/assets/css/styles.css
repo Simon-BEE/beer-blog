@@ -140,7 +140,7 @@ section .index{
         font-size: 0.8em;
     }
     
-    .content-article > *{
+    .content-article > *, .order-user > *, .order-list ul > *{
         margin: 3% 0;
     }
 }
@@ -160,6 +160,7 @@ section .index{
     h2{
         font-size: 1.2em;
         letter-spacing: 4px;
+        text-align: center;
     }
 
     .content, .articles{
@@ -169,7 +170,7 @@ section .index{
     }
 
     .random-pic{
-        content:url("https://picsum.photos/100?random=1");
+        content:url("https://picsum.photos/200?random=1");
     }
 
     .banner-pic{
@@ -178,6 +179,8 @@ section .index{
 
     .one-post{
         display: flex;
+        flex-direction: column;
+        align-items: center;
         padding: 3%;
     }
 
@@ -187,7 +190,12 @@ section .index{
 
     .one-post img{
         border-radius: 2%;
-        height: 100px;
+    }
+
+    .card img{
+        border-radius: 2%;
+        width: 150px;
+        height: 320px;
     }
     
     .one-post h3{
@@ -199,12 +207,38 @@ section .index{
         display: flex;
         flex-direction: column;
     }
-    
-    .content-article p{
-    }
-    
+
     .content-article > *{
         margin: 3% 0;
+    }
+
+    .register{
+        align-items: unset;
+    }
+
+    .login-page{
+        width: 90%!important;
+    }
+
+    .form_row{
+        flex-direction: column;
+    }
+
+    .form_row > *{
+        margin: 2% 0!important;
+    }
+
+    .form{
+        width: 90%;
+        padding: 1%!important;
+    }
+
+    .form form{
+        padding: 8% 0;
+    }
+
+    .post-content{
+        padding: 2%;
     }
 }
 
@@ -264,6 +298,53 @@ section .index{
 
 .post-content > *{
     margin: 2% 0;
+}
+
+/*-----------------
+-----COMMENT-------
+-----------------*/
+
+.commentary{
+	background-color: #857555;
+    padding: 1% 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2% 0;
+}
+
+.posting{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inside{
+	background-color: #fff;
+	padding: 1% 1%;
+}
+
+.inside > *{
+	margin-bottom: 2%;
+}
+
+.posting > *{
+	margin: 1% 0;
+}
+
+.posting input, textarea{
+	padding: 1%;
+	border: none;
+	border-radius: 5px;
+}
+
+.posting button{
+    background: #CFA616;
+    margin: 2% 0;
+    padding: 2%;
+    border: none;
+    color:#fff;
 }
 
 /*************************CATEGORIES*************************/
@@ -358,7 +439,7 @@ section .index{
 
 /***********FORM***********/
 
-.order{
+.order, .profile, .order-user{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -494,6 +575,7 @@ footer{
     color: #fff;
     font-family: 'Open Sans', sans-serif;
     font-size: 0.9em;
+    padding: 4% 0;
 }
 
 footer > *{
