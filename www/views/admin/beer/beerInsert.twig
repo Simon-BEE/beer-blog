@@ -1,3 +1,9 @@
+{% extends "/layout/admindefault.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
 <section class="admin-posts">
 	<h2>Ajouter une bière</h2>
 	<form class="onePost" method="POST" action="" id="formPurchase">
@@ -19,3 +25,5 @@
 		<button type="submit">Ajouter</button>
 	</form>
 </section>
+
+{% endblock %}

@@ -8,7 +8,7 @@
 {% for order in orders %}
     <article class="onePost">
     <h3>Commande n°{{ order.id }} - {{ order.priceTTC }}€</h3>
-    <p>{{ order.idUser }}</p>
+    <p>Client n°{{ order.idUser }}</p>
     <p><a href="{{ order.AdminUrl }}">edit</a></p>
     </article>
 {% endfor %}

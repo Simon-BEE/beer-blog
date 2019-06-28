@@ -61,4 +61,24 @@ class BeerEditController extends Controller
             }
         }
     }
+
+    public function beerInsert()
+    {
+        if (isset($_POST['name']) && !empty($_POST['name']) &&
+            isset($_POST['slug']) && !empty($_POST['slug']) &&
+            isset($_POST['img']) && !empty($_POST['img']) &&
+            isset($_POST['content']) && !empty($_POST['content']) &&
+            isset($_POST['price']) && !empty($_POST['price'])) {
+            $price = (int)$_POST['price'];
+            if (preg_match("#^[a-zA-Z0-9_-]*$#", $_POST['slug']) && is_int($price)) {
+                $this->beer->insertBeer($_POST['name'], $_POST['slug'], $_POST['img'], $_POST['content'], $price);
+            }
+        }
+
+        $title = "Ajouter une bière";
+        
+        $this->render("admin/beer/beerInsert", [
+            "title" => $title
+        ]);
+    }
 }

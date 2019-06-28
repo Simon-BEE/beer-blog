@@ -7,6 +7,7 @@
     <h2>Update an order</h2>
     <article class="onePost">
     <h4>Commande n°{{ order.id }}</h4>
+    <p>Client n°{{ order.idUser }}</p>
     <ul>
     {% for product in products %}
         <li>{{ product.name }} - {{ product.qty }} x {{ product.price }}</li>

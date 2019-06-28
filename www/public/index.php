@@ -42,6 +42,8 @@ $app->getRouter($basePath)
     ->post('/admin/user/[*:lastname]-[i:id]', 'admin\UserEdit#userUpdate', 'admin_user_update')
     ->get('/admin/beer/[*:slug]-[i:id]', 'admin\BeerEdit#beerEdit', 'admin_beer_edit')
     ->post('/admin/beer/[*:slug]-[i:id]', 'admin\BeerEdit#beerUpdate', 'admin_beer_update')
+    ->get('/admin/beerInsert', 'admin\BeerEdit#beerInsert', 'admin_beer_insert')
+    ->post('/admin/beerInsert', 'admin\BeerEdit#beerInsert', 'admin_beer_insert2')
     ->get('/admin/orders/[i:id]-[i:id_user]', 'admin\OrderEdit#orderEdit', 'admin_order_edit')
     ->run();
     
