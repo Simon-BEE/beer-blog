@@ -34,7 +34,7 @@ class OrdersEntity extends Entity
      */
     public function getProducts()
     {
-        return $this->ids_product;
+        return unserialize($this->ids_product);
     }
 
     /**
@@ -53,5 +53,13 @@ class OrdersEntity extends Entity
                 "id" => $this->getId(),
                 "id_user" => $this->getIdUser()
             ]);
+    }
+
+    public function getAdminUrl():string
+    {
+        return \App\App::getInstance()->getRouter()->url("admin_order_edit", [
+            "id" => $this->getId(),
+            "id_user" => $this->getIdUser()
+        ]);
     }
 }

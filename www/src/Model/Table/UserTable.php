@@ -60,4 +60,9 @@ class UserTable extends Table
         $id = $this->query("SELECT id_user FROM {$this->table} ORDER BY id_user DESC LIMIT 1", null, true, null)->getId();
         return $this->query("SELECT * FROM {$this->table} WHERE id_user = ?", [$id], true, null);
     }
+
+    public function update($column, $news, $id)
+    {
+        return $this->db->query("UPDATE {$this->table} SET $column = '$news'  WHERE id_user = '$id'");
+    }
 }

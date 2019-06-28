@@ -36,9 +36,9 @@ class Table
         return $this->query("SELECT * FROM {$this->table} WHERE id=?", [$id], true);
     }
 
-    public function findBy($what, $attributes)
+    public function findBy($what, $attributes, $one = false)
     {
-        return $this->query("SELECT * FROM {$this->table} WHERE $what = ?", [$attributes]);
+        return $this->query("SELECT * FROM {$this->table} WHERE $what = ?", [$attributes], $one);
     }
 
     public function query(string $statement, ?array $attributes = null, bool $one = false, ?string $class_name = null)

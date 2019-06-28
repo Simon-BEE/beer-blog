@@ -16,7 +16,7 @@ class PostEditController extends Controller
             throw new \Exception('Aucun article ne correspond à cet ID');
         }
         if ($post->getSlug() !== $slug) {
-            $url = $this->generateUrl('post', ['id' => $id, 'slug' => $post->getSlug()]);
+            $url = $this->generateUrl('admin_posts_edit', ['id' => $id, 'slug' => $post->getSlug()]);
             http_response_code(301);
             header('Location: ' . $url);
             exit();
@@ -26,27 +26,29 @@ class PostEditController extends Controller
         
         $title = $post->getName();
         
-        $this->render("admin/postsEdit", [
+        $this->render("admin/post/postsEdit", [
             "title" => $title,
             "categories" => $categories,
             "post" => $post,
             "allCategories" => $allCategories
         ]);
     }
-    public function postUpdate()
+    public function postUpdate($slug, $id)
     {
+        $post = $this->post->find($id);
+        $url = $this->generateUrl('admin_posts_edit', ['id' => $id, 'slug' => $post->getSlug()]);
         if (isset($_POST)) {
             $id = $_POST['post_id'];
             if (!empty($_POST['post_name'])) {
                 (string)$name = $_POST['post_name'];
                 $this->post->update("name", $name, $id);
-                header('location: /admin/posts');
+                header('location: '.$url);
             }
             if (!empty($_POST['post_slug'])) {
                 (string)$slug = $_POST['post_slug'];
                 if (preg_match("#^[a-zA-Z0-9_-]*$#", $slug)) {
                     $this->post->update("slug", $slug, $id);
-                    header('location: /admin/posts');
+                    header('location: '.$url);
                 } else {
                     dd('error');
                 }
@@ -54,7 +56,7 @@ class PostEditController extends Controller
             if (!empty($_POST['post_content'])) {
                 (string)$content = $_POST['post_content'];
                 $this->post->update("content", $content, $id);
-                header('location: /admin/posts');
+                header('location: '.$url);
             }
             /*
             if (!empty($_POST['select'])) {

@@ -7,14 +7,14 @@
     <h2>Update a category</h2>
     <article class="onePost">
     <h4>{{ category.name }}</h4>
-    <form action="/admin/categoryUpdate" method="post">
+    <form action="" method="post">
         <input type="text" name="cat_name" value="{{ category.name }}">
         <input type="hidden" name="cat_id" value="{{ category.id }}">
         <button type="submit">Update</button>
     </form>
     <p>ID : {{ category.id }}</p>
     <p>SLUG : {{ category.slug }}</p>
-    <form action="/admin/categoryUpdate" method="post">
+    <form action="" method="post">
         <input type="text" name="cat_slug" value="{{ category.slug }}">
         <input type="hidden" name="cat_id" value="{{ category.id }}">
         <button type="submit">Update</button>

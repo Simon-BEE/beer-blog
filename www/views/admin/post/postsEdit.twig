@@ -7,19 +7,19 @@
     <h2>Update a post</h2>
     <article class="onePost">
     <h4>{{ post.name }}</h4>
-    <form action="/admin/postUpdate" method="post">
+    <form action="" method="post">
         <input type="text" name="post_name" value="{{ post.name }}">
         <input type="hidden" name="post_id" value="{{ post.id }}">
         <button type="submit">Update</button>
     </form>
     <p>ID : {{ post.id }}</p>
     <p>SLUG : {{ post.slug }}</p>
-    <form action="/admin/postUpdate" method="post">
+    <form action="" method="post">
         <input type="text" name="post_slug" value="{{ post.slug }}">
         <input type="hidden" name="post_id" value="{{ post.id }}">
         <button type="submit">Update</button>
     </form>
-    <form action="/admin/postUpdate" method="post">
+    <form action="" method="post">
         <textarea name="post_content">{{ post.content }}</textarea>
         <input type="hidden" name="post_id" value="{{ post.id }}">
         <button type="submit">Update</button>
@@ -31,7 +31,7 @@
 {% endfor %}
     </p>
     <h4>Add a category</h4>
-    <form action="/admin/postUpdate" method="post">
+    <form action="" method="post">
         <select class="select-form" name="select">
             <option value="">--Please choose an option--</option>
             {% for one in allCategories %}

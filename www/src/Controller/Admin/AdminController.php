@@ -11,6 +11,7 @@ class AdminController extends Controller
         $this->loadModel('category');
         $this->loadModel('user');
         $this->loadModel('beer');
+        $this->loadModel('orders');
     }
     public function index()
     {
@@ -35,7 +36,7 @@ class AdminController extends Controller
         );
         $postById = $paginatedQuery->getItems();
         $title = "Posts";
-        $this->render("admin/posts", [
+        $this->render("admin/post/posts", [
             "title" => $title,
             "posts" => $postById,
             "paginate" => $paginatedQuery->getNavHtml()
@@ -49,7 +50,7 @@ class AdminController extends Controller
         );
         $categories = $paginatedQuery->getItems();
         $title = "Categories";
-        $this->render("admin/categories", [
+        $this->render("admin/category/categories", [
             "title" => $title,
             "categories" => $categories,
             "paginate" => $paginatedQuery->getNavHtml()
@@ -59,9 +60,32 @@ class AdminController extends Controller
     {
         $users = $this->user->allWithoutLimit();
         $title = "Users";
-        $this->render("admin/users", [
+        $this->render("admin/user/users", [
             "title" => $title,
             "users" => $users
+            ]);
+    }
+    public function beers()
+    {
+        $paginatedQuery = new PaginatedQueryAppController(
+            $this->beer,
+            $this->generateUrl('admin_beers')
+        );
+        $beers = $paginatedQuery->getItems();
+        $title = "Beers";
+        $this->render("admin/beer/beers", [
+            "title" => $title,
+            "beers" => $beers,
+            "paginate" => $paginatedQuery->getNavHtml()
+            ]);
+    }
+    public function orders()
+    {
+        $orders = $this->orders->allWithoutLimit();
+        $title = "Orders";
+        $this->render("admin/order/orders", [
+            "title" => $title,
+            "orders" => $orders
             ]);
     }
 }

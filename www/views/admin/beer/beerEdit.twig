@@ -1,0 +1,36 @@
+{% extends "/layout/admindefault.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<section class="admin-edit">
+    <h2>Update a beer</h2>
+    <article class="onePost">
+    <h4>{{ beer.name }}</h4>
+    <form action="" method="post">
+        <input type="text" name="beer_name" value="{{ beer.name }}">
+        <input type="hidden" name="beer_id" value="{{ beer.id }}">
+        <button type="submit">Update</button>
+    </form>
+    <p>ID : {{ beer.id }}</p>
+    <p>SLUG : {{ beer.slug }}</p>
+    <form action="" method="post">
+        <input type="text" name="beer_slug" value="{{ beer.slug }}">
+        <input type="hidden" name="beer_id" value="{{ beer.id }}">
+        <button type="submit">Update</button>
+    </form>
+    <h4>Image</h4>
+    <form action="" method="post">
+        <input type="text" name="beer_img" value="{{ beer.img }}">
+        <input type="hidden" name="beer_id" value="{{ beer.id }}">
+        <button type="submit">Update</button>
+    </form>
+    <h4>Content</h4>
+    <form action="" method="post">
+        <textarea name="beer_content">{{ beer.content }}</textarea>
+        <input type="hidden" name="beer_id" value="{{ beer.id }}">
+        <button type="submit">Update</button>
+    </form>
+    </article>
+</section>
+{% endblock %}

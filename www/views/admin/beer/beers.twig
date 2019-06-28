@@ -1,0 +1,18 @@
+{% extends "/layout/admindefault.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<section class="admin-posts">
+    <h2>Beers' list</h2>
+    <p><a href="/admin/beerInsert">Add a new post</a></p>
+{% for beer in beers %}
+    <article class="onePost">
+    <h3>{{ beer.name }}</h3>
+    <p>{{ beer.content | slice(0, 200) }}</p>
+    <p><a href="{{ beer.AdminUrl }}">edit</a></p>
+    </article>
+{% endfor %}
+</section>
+{{ paginate | raw }}
+{% endblock %}

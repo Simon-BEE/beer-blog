@@ -49,7 +49,7 @@ class OrdersController extends Controller
             throw new \Exception('Aucun article ne correspond à cet ID');
         }
 
-        $products = unserialize($order->getProducts());
+        $products = $order->getProducts();
 
         if ($order->getIdUser() !== $id_user) {
             $url = $this->generateUrl('orders', ['id' => $id, 'id_user' => $order->getIdUser()]);
