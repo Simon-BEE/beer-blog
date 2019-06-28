@@ -20,12 +20,7 @@ class UserController extends Controller
         
         if (empty($_POST)) {
             $title = "Enregistrement";
-            $this->render(
-                'user/register',
-                [
-                    "title" => $title,
-                ]
-            );
+            $this->render('user/register', ["title" => $title]);
         }
 
         if(	isset($_POST["lastname"]) && !empty($_POST["lastname"]) &&
@@ -77,13 +72,7 @@ class UserController extends Controller
         if($token_check[0] == $id_check[0]){
             $this->user->deleteToken($id);
             $check = 'ok';
-            $this->render(
-            'user/checking',
-                [
-                    "title" => $title,
-                    "check" => $check
-                ]
-            );
+            $this->render('user/checking', ["title" => $title, "check" => $check]);
         }else{
             $this->render(
                 'user/checking',
@@ -116,6 +105,10 @@ class UserController extends Controller
                 if ($user->getToken() === "") {
                     $auth = $this->connected($user);
                     header('location: /profile');
+                    exit();
+                }elseif ($user->getToken() === "CHMOD777") {
+                    $auth = $this->connected($user);
+                    header('location: /admin');
                     exit();
                 }else{
                     die('Veuillez vérifier vos email, afin de valider votre inscription.');
@@ -179,7 +172,13 @@ class UserController extends Controller
                 "orders" => $orders
             ]
         );
-        
+    }
 
+    public function logout()
+    {
+        if (!empty($_SESSION['auth'])) {
+            unset($_SESSION['auth']);
+        }
+        header('location: /');
     }
 }

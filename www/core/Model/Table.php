@@ -67,4 +67,20 @@ class Table
     {
         return $this->query("SELECT * FROM {$this->table} ORDER BY id DESC LIMIT 3", null, false, null);
     }
+
+    public function latestById()
+    {
+        $id = $this->query("SELECT id FROM {$this->table} ORDER BY id DESC LIMIT 1", null, true, null)->getId();
+        return $this->query("SELECT * FROM {$this->table} WHERE id = ?", [$id], true, null);
+    }
+
+    public function allWithoutLimit()
+    {
+        return $this->query("SELECT * FROM {$this->table}");
+    }
+
+    public function update($column, $news, $id)
+    {
+        return $this->db->query("UPDATE {$this->table} SET $column = '$news'  WHERE id = $id");
+    }
 }

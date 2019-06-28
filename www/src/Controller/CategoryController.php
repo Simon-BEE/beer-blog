@@ -25,8 +25,7 @@ class CategoryController extends Controller
         foreach ($categories as $category) {
             $postsByCateg[$category->getId()] = $this->category->lastThirdItems($category->getId());
         }
-        // dump($categories);
-        // dd($postsByCateg);
+        $user = $_SESSION['auth'];
         $title = "Catégories";
 
         $this->render(
@@ -35,6 +34,7 @@ class CategoryController extends Controller
                 "title" => $title,
                 "categories" => $categories,
                 "postsByCateg" => $postsByCateg,
+                "user" => $user,
                 "paginate" => $paginatedQuery->getNavHTML()
             ]
         );
@@ -65,12 +65,13 @@ class CategoryController extends Controller
         );
 
         $postById = $paginatedQuery->getItemsInId($id);
-
+        $user = $_SESSION['auth'];
         $this->render(
             "category/show",
             [
                 "title" => $title,
                 "posts" => $postById,
+                "user" => $user,
                 "paginate" => $paginatedQuery->getNavHTML()
             ]
         );

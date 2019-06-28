@@ -19,13 +19,14 @@ class BeerController extends Controller
         );
 
         $beers = $paginatedQuery->getItems();
-
+        $user = $_SESSION['auth'];
         $title = 'Les bières';
         $this->render(
             'beer/all',
             [
                 "title" => $title,
                 "beers" => $beers,
+                "user" => $user,
                 "paginate" => $paginatedQuery->getNavHtml()
             ]
         );
@@ -47,14 +48,15 @@ class BeerController extends Controller
             header('Location: ' . $url);
             exit();
         }
-
+        $user = $_SESSION['auth'];
         $title = "article : " . $beer->getName();
 
         $this->render(
             "beer/show",
             [
                 "title" => $title,
-                "beer" => $beer
+                "beer" => $beer,
+                "user" => $user
             ]
         );
     }

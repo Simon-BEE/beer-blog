@@ -58,12 +58,15 @@ class OrdersController extends Controller
             header('Location: ' . $url);
             exit();
         }
+        $user = $_SESSION['auth'];
+        $title = "Confirmation de commande";
         $this->render(
             'orders/confirm',
             [
                 "title" => $title,
                 "order" => $order,
-                "products" => $products
+                "products" => $products,
+                "user" => $user
             ]
         );
     }

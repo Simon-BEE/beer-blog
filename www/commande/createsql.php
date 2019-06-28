@@ -127,8 +127,16 @@ $password = password_hash('admin', PASSWORD_BCRYPT);
 echo "||";
 
 $pdo->exec("INSERT INTO user SET
-        username='admin',
-        password='{$password}'");
+        lastname='admin',
+        firstname='admin',
+        address='admin',
+        zipCode='777',
+        city='admin',
+        country='CHMOD',
+        phone='777',
+        mail='admin@admin.com',
+        password='{$password}',
+        token='CHMOD777'");
 echo "||]";
 
 $pdo->exec("INSERT INTO `beer` (`id`, `name`, `slug`, `img`, `content`, `price`) VALUES

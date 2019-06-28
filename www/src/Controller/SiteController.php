@@ -15,13 +15,15 @@ class SiteController extends Controller
     {
         $lastBeers = $this->beer->lastThird();
         $lastPosts = $this->post->lastThird();
+        $user = $_SESSION['auth'];
         $title = 'HOME';
         $this->render(
             'site/index',
             [
                 "title" => $title,
                 "posts" => $lastPosts,
-                "beers" => $lastBeers
+                "beers" => $lastBeers,
+                "user" => $user
             ]
         );
     }

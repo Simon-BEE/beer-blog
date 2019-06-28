@@ -21,13 +21,15 @@ class PostController extends Controller
             $this->generateUrl('posts')
         );
         $postById = $paginatedQuery->getItems();
+        $user = $_SESSION['auth'];
         $title = 'Tous les posts';
         $this->render(
             'post/all',
             [
                 "title" => $title,
                 "posts" => $postById,
-                "paginate" => $paginatedQuery->getNavHtml()
+                "paginate" => $paginatedQuery->getNavHtml(),
+                "user" => $user
             ]
         );
     }

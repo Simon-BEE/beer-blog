@@ -26,4 +26,6 @@ Intégration du site bière en MVC, avec le blog en supplément.
 - [x] Ajouter section commentaires
 - [ ] Implentation interface administrateur
 - [ ] Variable utilisateur globale
-- ...
+- [ ] Implenter les messages flash
+- [ ] Améliorer code (valeur attendu des fonctions etc...)
+- [ ] ...

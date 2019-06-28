@@ -80,4 +80,12 @@ class BeerEntity extends Entity
                 "id" => $this->getId()
             ]);
     }
+
+    public function getAdminUrl():string
+    {
+        return \App\App::getInstance()->getRouter()->url("admin_beer_edit", [
+            "slug" => $this->getSlug(),
+            "id" => $this->getId()
+        ]);
+    }
 }

@@ -1,0 +1,11 @@
+{% extends "/layout/admindefault.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <form action="/admin/postInsert" method="post">
+        <input type="text" name="name" value="">
+        <input type="text" name="slug" value="">
+        <textarea name="content"cols="30" rows="10"></textarea>
+    </form>
+{% endblock %}

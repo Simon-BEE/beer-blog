@@ -99,4 +99,12 @@ class UserEntity extends Entity
                 "id" => $this->getId()
             ]);
     }
+
+    public function getAdminUrl():string
+    {
+        return \App\App::getInstance()->getRouter()->url("admin_user_edit", [
+            "lastname" => $this->getLastname(),
+            "id" => $this->getId()
+        ]);
+    }
 }

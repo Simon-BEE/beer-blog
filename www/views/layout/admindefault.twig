@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ADMIN ACCESS</title>
+    <link rel="stylesheet" href="/assets/css/reset.css">
+    <link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body>
+    <aside>
+        <header>
+            <h1>{% block title %}{{ title }}{% endblock %}</h1>
+        </header>
+        <ul>
+            <li><a href="/admin">INDEX</a></li>
+            <li><a href="/admin/posts">POSTS</a></li>
+            <li><a href="/admin/beers">BEERS</a></li>
+            <li><a href="/admin/orders">ORDERS</a></li>
+            <li><a href="/admin/categories">CATEGORIES</a></li>
+            <li><a href="/admin/users">USERS</a></li>
+            <li><a href="/">EXIT</a></li>
+        </ul>
+    </aside>
+
+    <main>
+            {% block content %}
+            {% endblock %}
+    </main>
+</body>
+</html>
