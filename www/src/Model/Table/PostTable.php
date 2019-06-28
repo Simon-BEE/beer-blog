@@ -89,4 +89,19 @@ class PostTable extends Table
 
         return $postById;
     }
+
+    public function insertPost($name, $slug, $content)
+    {
+        $createdAt = date("Y-m-d h:i:s");
+        $sql = "INSERT INTO `post` 
+        (`name`, `slug`, `content`, `created_at`) 
+        VALUES ( :name, :slug, :content, :created_at)";
+        $attributes = [
+            ":name"		    => $name,
+            ":slug"	        => $slug,
+            ":content"		=> $content,
+            ":created_at"    => $createdAt
+        ];
+        return $this->query($sql, $attributes);
+    }
 }

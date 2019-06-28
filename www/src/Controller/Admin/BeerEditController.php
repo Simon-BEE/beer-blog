@@ -35,6 +35,7 @@ class BeerEditController extends Controller
     {
         $beer = $this->beer->find($id);
         $url = $this->generateUrl('admin_beer_edit', ['slug' => $beer->getSlug(), 'id' => $id]);
+        
         if (isset($_POST)) {
             if (!empty($_POST['beer_name']) && $id === $_POST['beer_id']) {
                 $this->beer->update('name', $_POST['beer_name'], $id);
@@ -70,9 +71,15 @@ class BeerEditController extends Controller
             isset($_POST['content']) && !empty($_POST['content']) &&
             isset($_POST['price']) && !empty($_POST['price'])) {
             $price = (int)$_POST['price'];
-            if (preg_match("#^[a-zA-Z0-9_-]*$#", $_POST['slug']) && is_int($price)) {
-                $this->beer->insertBeer($_POST['name'], $_POST['slug'], $_POST['img'], $_POST['content'], $price);
+            $slug = $this->beer->findBy('slug', $_POST['slug'], true);
+            if (!$slug) {
+                if (preg_match("#^[a-zA-Z0-9_-]*$#", $_POST['slug']) && is_int($price)) {
+                    $this->beer->insertBeer($_POST['name'], $_POST['slug'], $_POST['img'], $_POST['content'], $price);
+                }
+            }else{
+                die('slug déjà existant');
             }
+            
         }
 
         $title = "Ajouter une bière";

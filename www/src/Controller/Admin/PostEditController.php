@@ -69,16 +69,24 @@ class PostEditController extends Controller
     }
     public function postInsert()
     {
-        if (isset($_POST)) {
-            $name = htmlspecialchars($_POST['name']);
-            $slug = htmlspecialchars($_POST['slug']);
-            $content = htmlspecialchars($_POST['content']);
-            if (preg_match("#^[a-zA-Z0-9_-]*$#", $slug)) {
-                $this->post->insert($name, $slug, $content);
-                header('location: /admin/posts');
-            } else {
-                dd('error');
+        if (isset($_POST['name']) && !empty($_POST['name']) &&
+            isset($_POST['slug']) && !empty($_POST['slug']) &&
+            isset($_POST['content']) && !empty($_POST['content'])) {
+            $slug = $this->post->findBy('slug', $_POST['slug'], true);
+            if (!$slug) {
+                if (preg_match("#^[a-zA-Z0-9_-]*$#", $_POST['slug'])) {
+                    $this->post->insertPost($_POST['name'], $_POST['slug'], $_POST['content']);
+                }
+            }else{
+                die('slug déjà existant');
             }
+            
         }
+
+        $title = "Ajouter un article";
+        
+        $this->render("admin/post/postInsert", [
+            "title" => $title
+        ]);
     }
 }

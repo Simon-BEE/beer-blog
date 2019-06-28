@@ -3,9 +3,21 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-    <form action="/admin/postInsert" method="post">
-        <input type="text" name="name" value="">
-        <input type="text" name="slug" value="">
-        <textarea name="content"cols="30" rows="10"></textarea>
-    </form>
+
+<section class="admin-posts">
+	<h2>Ajouter un article</h2>
+	<form class="onePost" method="POST" action="" id="formPurchase">
+		<div class="form_row">
+			<input type="text" name="name" placeholder="Nom de l'article"/>
+		</div>
+		<div class="form_row">
+			<input type="text" name="slug" placeholder="Slug"/>
+		</div>
+		<div class="form_row">
+			<textarea name="content" id="" cols="30" rows="10" placeholder="Contenu"></textarea>
+		</div>
+		<button type="submit">Ajouter</button>
+	</form>
+</section>
+
 {% endblock %}
