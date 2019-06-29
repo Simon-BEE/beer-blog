@@ -5,6 +5,10 @@ use Core\Model\Table;
 
 class UserTable extends Table
 {
+    public function allWithoutLimit()
+    {
+        return $this->query("SELECT * FROM {$this->table} ORDER BY id_user");
+    }
 
     public function exist($mail)
     {

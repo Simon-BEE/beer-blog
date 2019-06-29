@@ -19,13 +19,15 @@ class AdminController extends Controller
         $latestCategory = $this->category->latestById();
         $latestUser = $this->user->latestById();
         $latestBeer = $this->beer->latestById();
+        $latestOrder = $this->orders->latestById();
         $title = "Index";
         $this->render("admin/index", [
             "title" => $title,
             "post" => $latestPost,
             "category" => $latestCategory,
             "beer" => $latestBeer,
-            "user" => $latestUser
+            "user" => $latestUser,
+            "order" =>$latestOrder
             ]);
     }
     public function posts()

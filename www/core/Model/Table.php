@@ -76,7 +76,7 @@ class Table
 
     public function allWithoutLimit()
     {
-        return $this->query("SELECT * FROM {$this->table}");
+        return $this->query("SELECT * FROM {$this->table} ORDER BY id");
     }
 
     public function update($column, $news, $id)

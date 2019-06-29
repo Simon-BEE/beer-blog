@@ -16,6 +16,14 @@
 		<div class="form_row">
 			<textarea name="content" id="" cols="30" rows="10" placeholder="Contenu"></textarea>
 		</div>
+		<div class="form_row">
+		{% for category in categories %}
+			<div>
+				<input type="checkbox" name="{{ category.id }}" id="{{ category.id }}">
+				<label for="{{ category.id }}">{{ category.name }}</label>
+			</div>
+		{% endfor %}
+		</div>
 		<button type="submit">Ajouter</button>
 	</form>
 </section>

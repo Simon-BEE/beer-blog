@@ -20,7 +20,7 @@ class PostTable extends Table
 
     public function allByLimit(int $limit, int $offset)
     {
-        $posts = $this->query("SELECT * FROM {$this->table} LIMIT {$limit}  OFFSET {$offset}");
+        $posts = $this->query("SELECT * FROM {$this->table} ORDER BY id DESC LIMIT {$limit}  OFFSET {$offset}");
 
         $ids = array_map(function (PostEntity $post) {
             return $post->getId();

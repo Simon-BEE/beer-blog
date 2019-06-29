@@ -58,4 +58,26 @@ class CategoryEditController extends Controller
             }
         }
     }
+
+    public function categoryInsert()
+    {
+        if (isset($_POST['name']) && !empty($_POST['name']) &&
+            isset($_POST['slug']) && !empty($_POST['slug'])) {
+            $slug = $this->category->findBy('slug', $_POST['slug'], true);
+            if (!$slug) {
+                if (preg_match("#^[a-zA-Z0-9_-]*$#", $_POST['slug'])) {
+                    $this->category->insertcategory($_POST['name'], $_POST['slug']);
+                }
+            }else{
+                die('slug déjà existant');
+            }
+            
+        }
+
+        $title = "Ajouter une catégorie";
+        
+        $this->render("admin/category/categoryInsert", [
+            "title" => $title
+        ]);
+    }
 }

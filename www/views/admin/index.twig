@@ -29,6 +29,14 @@
     <h2>Latest user</h2>
     <h3>{{ user.mail }}</h3>
     <p>{{ user.firstname }} {{ user.lastname }}</p>
+    <p><a href="{{ user.AdminUrl }}">edit</a></p>
+    </article>
+
+    <article class="onePost">
+    <h2>Latest order</h2>
+    <h3>Commande n°{{ order.id }}</h3>
+    <p>Client n°{{ order.idUser }} - {{ order.priceTTC }}€</p>
+    <p><a href="{{ order.AdminUrl }}">show</a></p>
     </article>
     
 </section>

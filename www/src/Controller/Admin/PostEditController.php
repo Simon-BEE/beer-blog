@@ -8,6 +8,7 @@ class PostEditController extends Controller
     {
         $this->loadModel('post');
         $this->loadModel('category');
+        $this->loadModel('post_category');
     }
     public function postEdit($slug, $id)
     {
@@ -69,6 +70,7 @@ class PostEditController extends Controller
     }
     public function postInsert()
     {
+        
         if (isset($_POST['name']) && !empty($_POST['name']) &&
             isset($_POST['slug']) && !empty($_POST['slug']) &&
             isset($_POST['content']) && !empty($_POST['content'])) {
@@ -80,13 +82,21 @@ class PostEditController extends Controller
             }else{
                 die('slug déjà existant');
             }
+            $categ = $this->category->allWithoutLimit();
             
+            for ($i=1; $i <= count($categ); $i++) { 
+                if ($_POST[$i]) {
+                    $post_id = $this->post->latestById()->getId();
+                    $this->post_category->insertPC($post_id, $i);
+                }
+            }
         }
-
+        $categories = $this->category->allWithoutLimit();
         $title = "Ajouter un article";
         
         $this->render("admin/post/postInsert", [
-            "title" => $title
+            "title" => $title,
+            "categories" => $categories
         ]);
     }
 }
