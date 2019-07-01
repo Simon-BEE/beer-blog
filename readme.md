@@ -24,7 +24,8 @@ Intégration du site bière en MVC, avec le blog en supplément.
 - [x] Gérer partie e-commerce
 - [x] Implentation interface utilisateur
 - [x] Ajouter section commentaires
-- [ ] Implentation interface administrateur
+- [x] Implentation interface administrateur
+- [x] Ajouter formulaire de contact
 - [ ] Variable utilisateur globale
 - [ ] Implenter les messages flash
 - [ ] Améliorer code (valeur attendu des fonctions etc...)

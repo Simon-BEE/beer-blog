@@ -60,6 +60,11 @@ class BeerEditController extends Controller
                 $this->beer->update('content', $_POST['beer_content'], $id);
                 header('Location: ' . $url);
             }
+
+            if (!empty($_POST['beer_price']) && $id === $_POST['beer_id']) {
+                $this->beer->update('price', $_POST['beer_price'], $id);
+                header('Location: ' . $url);
+            }
         }
     }
 

@@ -25,7 +25,7 @@ class UserEditController extends Controller
         
         $title = $user->getMail();
         
-        $this->render("admin/userEdit", [
+        $this->render("admin/user/userEdit", [
             "title" => $title,
             "user" => $user
         ]);

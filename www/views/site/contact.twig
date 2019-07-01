@@ -1,0 +1,25 @@
+{% extends "layout/default.twig" %}
+
+{% block content %}
+<section class="register">
+<h2>{{ title }}</h2>
+<div class="login-page">
+    <div class="form">
+        <form class="login-form" method="POST" action="" id="formPurchase">
+            <div class="form_row">
+                <input type="email" name="mail" placeholder="Votre email" value="{{ user.mail }}"/>
+            </div>
+            <div class="form_row">
+                <input type="text" name="name" placeholder="Votre nom" value="{{ user.firstname }} {{ user.lastname }}"/>
+            </div>
+            <div class="form_row">
+                <input type="text" name="subject" placeholder="Sujet" required/>
+            </div>
+            <textarea name="content" placeholder="Votre commentaire" required></textarea>
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+</div>
+
+</section>
+{% endblock %}
