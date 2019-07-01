@@ -45,7 +45,7 @@
                 <input type="tel" name="phone" value="{{ user.phone }}" required/>
             </div>
             <div class="form_row">
-                <input type="email" name="mail" value="{{ user.mail }}" disabled/>
+                <input type="email" name="mail" value="{{ user.mail }}" readonly/>
             </div>
 			<input type="hidden" name="id" value="{{ user.id }}" />
             <button type="submit">Modifier</button>
@@ -63,6 +63,9 @@
             <div class="form_row">
                 <input type="text" name="password" placeholder="Nouveau mot de passe" required/>
                 <input type="text" name="passwordVerify" placeholder="Retaper nouveau mot de passe" required/>
+            </div>
+            <div class="form_row">
+                <input type="hidden" name="mail" value="{{ user.mail }}" readonly/>
             </div>
 			<input type="hidden" name="id" value="{{ user.id }}" />
             <button type="submit">Modifier</button>

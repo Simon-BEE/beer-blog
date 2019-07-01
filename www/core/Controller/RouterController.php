@@ -34,9 +34,12 @@ class RouterController
     public function run(): void
     {
         $match = $this->router->match();
-
         if (is_array($match)) {
+            
             if (strpos($match['target'], "#")) {
+                if (strpos($match['target'], "admin") === 0 && (empty($_SESSION['auth']) || $_SESSION['auth']->getToken() !== "CHMOD777" )) {
+                    header('location: /');
+                }
                 [$controller, $methode] = explode("#", $match['target']);
                 $controller = "App\\Controller\\" . ucfirst($controller) . "Controller";
                 //try{

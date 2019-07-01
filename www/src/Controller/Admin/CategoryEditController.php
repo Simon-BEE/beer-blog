@@ -69,7 +69,10 @@ class CategoryEditController extends Controller
                     $this->category->insertcategory($_POST['name'], $_POST['slug']);
                 }
             }else{
-                die('slug déjà existant');
+                $_SESSION['error'] = 'slug déjà existant';
+                $title = "Ajouter une catégorie";
+                $this->render("admin/category/categoryInsert", ["title" => $title]);
+                unset($_SESSION['error']);
             }
             
         }

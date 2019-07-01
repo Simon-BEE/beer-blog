@@ -385,6 +385,30 @@ section .index{
     color: #999;
 }
 
+/*-----------------
+-----ALERT-------
+-----------------*/
+
+.alert-success, .alert-error{
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 2%;
+    padding: 2%;
+    text-align: center;
+    line-height: 30px;
+    font-size: 20px;
+    letter-spacing: 1.5px;
+    color: #fff;
+}
+
+.alert-success{
+    background-color: #2c8147;
+}
+
+.alert-error{
+    background-color: #f63a3a;
+}
+
 /*************************CATEGORIES*************************/
 
 .page-cat{

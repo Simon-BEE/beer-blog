@@ -24,7 +24,7 @@
                         <li><a href="/posts">Posts</a></li>
                         <li><a href="/beers">Beers</a></li>
                         <li><a href="/order">Order</a></li>
-                        {% if user is empty %}
+                        {% if session.auth is empty %}
                         <li><a href="/register">Register</a></li>
                         <li><a href="/connect">Connect</a></li>
                         {% else %}
@@ -46,6 +46,12 @@
     </header>
 
     <main>
+    {% if session.success %}
+        <div class="alert-success">{{ session.success }}</div>
+    {% elseif session.error %}
+        <div class="alert-error">{{ session.error }}</div>
+    {% endif %}
+    
         {% block content %}{% endblock %}
     </main>
 

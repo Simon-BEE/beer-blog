@@ -80,7 +80,11 @@ class PostEditController extends Controller
                     $this->post->insertPost($_POST['name'], $_POST['slug'], $_POST['content']);
                 }
             }else{
-                die('slug déjà existant');
+                $_SESSION['error'] = 'slug déjà existant';
+                $title = "Ajouter un article";
+                $categories = $this->category->allWithoutLimit();
+                $this->render("admin/post/postInsert", ["title" => $title,"categories" => $categories]);
+                unset($_SESSION['error']);
             }
             $categ = $this->category->allWithoutLimit();
             

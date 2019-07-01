@@ -82,7 +82,10 @@ class BeerEditController extends Controller
                     $this->beer->insertBeer($_POST['name'], $_POST['slug'], $_POST['img'], $_POST['content'], $price);
                 }
             }else{
-                die('slug déjà existant');
+                $_SESSION['error'] = 'slug déjà existant';
+                $title = "Ajouter une bière";
+                $this->render("admin/beer/beerInsert", ["title" => $title]);
+                unset($_SESSION['error']);
             }
             
         }
@@ -92,5 +95,7 @@ class BeerEditController extends Controller
         $this->render("admin/beer/beerInsert", [
             "title" => $title
         ]);
+        unset($_SESSION['error']);
+        unset($_SESSION['success']);
     }
 }

@@ -17,11 +17,6 @@ class UserController extends Controller
         if (!empty($_SESSION['auth'])) {
             header('location: /profile');
         }
-        
-        if (empty($_POST)) {
-            $title = "Enregistrement";
-            $this->render('user/register', ["title" => $title]);
-        }
 
         if(	isset($_POST["lastname"]) && !empty($_POST["lastname"]) &&
 		isset($_POST["firstname"]) && !empty($_POST["firstname"]) &&
@@ -53,14 +48,23 @@ class UserController extends Controller
                             <a href='http://localhost".$url."'>http://localhost".$url."</a>"];
                     MailController::envoiMail("Confirmation compte", $_POST["mail"], $msg);
                     //rediriger sur page profil
+                    $_SESSION['success'] = 'Votre inscription s\'est bien déroulée, veuillez la confirmer en vous rendant sur votre boîte mail';
                     header('location: /connect');
                 }else{
-                    die('Adresse mail déjà enregistré');
+                    $_SESSION['error'] = 'Adresse mail déjà enregistré';
+                    $this->render('user/register', ["title" => "Enregistrement"]);
+                    unset($_SESSION['error']);
                 }
             }else{
-                die('Adresse mail ou mot de passe non valide');
+                $_SESSION['error'] = 'Adresse mail ou mot de passe non valide';
+                $this->render('user/register', ["title" => "Enregistrement"]);
+                unset($_SESSION['error']);
             }
         }
+
+        $this->render('user/register', ["title" => "Enregistrement"]);
+        unset($_SESSION['error']);
+        unset($_SESSION['success']);
     }
 
     public function checking($token, $id)
@@ -89,16 +93,6 @@ class UserController extends Controller
             exit();
         }
 
-        if (empty($_POST)) {
-            $title = "Connexion";
-            $this->render(
-                'user/connect',
-                [
-                    "title" => $title,
-                ]
-            );
-        }
-
         if (isset($_POST["mail"]) && !empty($_POST["mail"]) && isset($_POST["password"]) && !empty($_POST["password"])) {
             $user = $this->user->exist($_POST["mail"]);
             if ($user && password_verify($_POST["password"], $user->getPwd())) {
@@ -111,12 +105,20 @@ class UserController extends Controller
                     header('location: /admin');
                     exit();
                 }else{
-                    die('Veuillez vérifier vos email, afin de valider votre inscription.');
+                    $_SESSION['error'] = 'Veuillez vérifier vos email, afin de valider votre inscription.';
+                    $this->render('user/connect',["title" => "Connexion"]);
+                    unset($_SESSION['error']);
                 }
             }else{
-                die('Erreur d\'identification');
+                $_SESSION['error'] = 'Erreur d\'identification';
+                $this->render('user/connect',["title" => "Connexion"]);
+                unset($_SESSION['error']);
             }
         }
+
+        $this->render('user/connect',["title" => "Connexion"]);
+        unset($_SESSION['error']);
+        unset($_SESSION['success']);
     }
 
     public function profile()
@@ -140,9 +142,24 @@ class UserController extends Controller
                     $_POST["lastname"], $_POST["firstname"], $_POST["address"], $_POST["zipCode"],
                     $_POST["city"], $_POST["country"], $_POST["phone"], $_POST['id']
                 );
-                header('location: /profile');
+                $_SESSION['success'] = 'Vos informations ont été mis à jour';
+                $user = $this->user->exist($_POST["mail"]);
+                $auth = $this->connected($user);
+                $orders = $this->orders->allById($auth->getId());
+                $this->render(
+                    'user/profile',
+                    [
+                        "title" => "Profile",
+                        "orders" => $orders,
+                        "user" => $auth
+                    ]
+                );
+                unset($_SESSION['success']);
             }else{
-                die('coquin ;)');
+                $_SESSION['error'] = 'Tentative de piratage échouée';
+                unset($_SESSION['auth']);
+                $this->render('user/connect', ["title" => $title]);
+                unset($_SESSION['error']);
             }
         }
 
@@ -153,25 +170,61 @@ class UserController extends Controller
                 if (password_verify($_POST["passwordOld"], $auth->getPwd()) && (int)$_POST['id'] === $auth->getId()) {
                     $password = password_hash(htmlspecialchars($_POST["password"]), PASSWORD_BCRYPT);
                     $this->user->updatePwd($password, $_POST['id']);
-                    header('location: /profile');
+                    $_SESSION['success'] = 'Mot de passe mis à jour';
+                    $user = $this->user->exist($_POST["mail"]);
+                    $auth = $this->connected($user);
+                    $orders = $this->orders->allById($auth->getId());
+                    $this->render(
+                        'user/profile',
+                        [
+                            "title" => "Profile",
+                            "orders" => $orders,
+                            "user" => $auth
+                        ]
+                    );
+                    unset($_SESSION['success']);
                 }else{
-                    die('erreur');
+                    $_SESSION['error'] = 'Ancien mot de passe incorrect';
+                    $user = $this->user->exist($auth->getMail());
+                    $orders = $this->orders->allById($auth->getId());
+                    $this->render(
+                        'user/profile',
+                        [
+                            "title" => "Profile",
+                            "orders" => $orders,
+                            "user" => $auth
+                        ]
+                    );
+                    unset($_SESSION['error']);
                 }
             }else{
-                die('password non identique');
+                $_SESSION['error'] = 'Mots de passe non identique';
+                $user = $this->user->exist($auth->getMail());
+                $orders = $this->orders->allById($auth->getId());
+                $this->render(
+                    'user/profile',
+                    [
+                        "title" => "Profile",
+                        "orders" => $orders,
+                        "user" => $auth
+                    ]
+                );
+                unset($_SESSION['error']);
             }
         }
+        dump($_SESSION);
         $user = $this->user->exist($auth->getMail());
         $orders = $this->orders->allById($auth->getId());
-        $title = "Profile";
         $this->render(
             'user/profile',
             [
-                "title" => $title,
-                "user" => $user,
-                "orders" => $orders
+                "title" => "Profile",
+                "orders" => $orders,
+                "user" => $auth
             ]
         );
+        unset($_SESSION['error']);
+        unset($_SESSION['success']);
     }
 
     public function logout()

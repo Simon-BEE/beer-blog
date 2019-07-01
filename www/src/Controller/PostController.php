@@ -21,15 +21,13 @@ class PostController extends Controller
             $this->generateUrl('posts')
         );
         $postById = $paginatedQuery->getItems();
-        $user = $_SESSION['auth'];
         $title = 'Tous les posts';
         $this->render(
             'post/all',
             [
                 "title" => $title,
                 "posts" => $postById,
-                "paginate" => $paginatedQuery->getNavHtml(),
-                "user" => $user
+                "paginate" => $paginatedQuery->getNavHtml()
             ]
         );
     }
@@ -47,11 +45,6 @@ class PostController extends Controller
             exit();
         }
 
-        if (!empty($_SESSION['auth'])) {
-            $user = $_SESSION['auth'];
-        }else{
-            $user = false;
-        }
         $categories = $this->category->allInId($post->getId());
         $comments = $this->comment->allInId($post->getId());
         $title = "article : " . $post->getName();
@@ -63,7 +56,7 @@ class PostController extends Controller
                 "categories" => $categories,
                 "post" => $post,
                 "comments" => $comments,
-                "user" => $user
+                "user" => $_SESSION['auth']
             ]
         );
     }
@@ -89,11 +82,13 @@ class PostController extends Controller
                 $url = $this->generateUrl('post', ['id' => $id, 'slug' => $slug]);
                 header('location: '.$url);
             }else{
-                die('veuillez vous enregistrer');
+                $_SESSION['error'] = 'Veuillez vous enregistrer';
+                unset($_SESSION['error']);
             }
 
         }else{
-            die('erreur');
+            $_SESSION['error'] = 'Erreur';
+            unset($_SESSION['error']);
         }
     }
 }

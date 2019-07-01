@@ -16,15 +16,13 @@ class SiteController extends Controller
     {
         $lastBeers = $this->beer->lastThird();
         $lastPosts = $this->post->lastThird();
-        $user = $_SESSION['auth'];
         $title = 'HOME';
         $this->render(
             'site/index',
             [
                 "title" => $title,
                 "posts" => $lastPosts,
-                "beers" => $lastBeers,
-                "user" => $user
+                "beers" => $lastBeers
             ]
         );
     }
@@ -42,13 +40,12 @@ class SiteController extends Controller
             $msg = ["html" => $name." | email: ".$mail."| Vous a envoyé : <br />".$content];
             MailController::envoiMail($subject, "montluconaformac2019@gmail.com", $msg);
         }
-        $user = $_SESSION['auth'];
+        
         $title = 'Contact';
         $this->render(
             'site/contact',
             [
-                "title" => $title,
-                "user" => $user
+                "title" => $title
             ]
         );
     }

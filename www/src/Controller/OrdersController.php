@@ -15,15 +15,13 @@ class OrdersController extends Controller
     public function order()
     {
         $beers = $this->beer->all();
-        $user = $_SESSION['auth'];
         $title = 'Commander';
         if (empty($_POST)) {
             $this->render(
                 'orders/order',
                 [
                     "title" => $title,
-                    "beers" => $beers,
-                    "user" => $user
+                    "beers" => $beers
                 ]
             );
         }
@@ -58,15 +56,14 @@ class OrdersController extends Controller
             header('Location: ' . $url);
             exit();
         }
-        $user = $_SESSION['auth'];
+        
         $title = "Confirmation de commande";
         $this->render(
             'orders/confirm',
             [
                 "title" => $title,
                 "order" => $order,
-                "products" => $products,
-                "user" => $user
+                "products" => $products
             ]
         );
     }
