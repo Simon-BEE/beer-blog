@@ -16,10 +16,10 @@ class CommentTable extends Table
         (`post_id`, `user_id`, `name`, `content`) 
         VALUES ( :post_id, :user_id, :name, :content)";
         $attributes = [
-            ":post_id"	=> $post_id,
-            ":user_id"	=> $user_id,
-            ":name"		=> $name,
-            ":content"	=> $content
+            ":post_id"  => $post_id,
+            ":user_id"  => $user_id,
+            ":name"     => $name,
+            ":content"  => $content
         ];
         return $this->query($sql, $attributes);
     }

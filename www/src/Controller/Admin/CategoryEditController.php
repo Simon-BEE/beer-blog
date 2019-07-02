@@ -1,7 +1,9 @@
 <?php
 namespace App\Controller\Admin;
+
 use Core\Controller\Controller;
 use Core\Controller\PaginatedQueryController;
+
 class CategoryEditController extends Controller
 {
     public function __construct()
@@ -26,10 +28,15 @@ class CategoryEditController extends Controller
             $this->post,
             $this->generateUrl('admin_category_edit', ["id" => $category->getId(), "slug" => $category->getSlug()])
         );
+        // if (!$paginatedQuery->getItemsInId($id)) {
+        //     $postById = "";
+        // }else{
+        //     $postById = $paginatedQuery->getItemsInId($id);
+        // }
         $postById = $paginatedQuery->getItemsInId($id);
         $title = $category->getName();
         
-        $this->render("admin/category/categoryEdit", [
+        return $this->render("admin/category/categoryEdit", [
             "title" => $title,
             "category" => $category,
             "posts" => $postById
@@ -68,19 +75,20 @@ class CategoryEditController extends Controller
                 if (preg_match("#^[a-zA-Z0-9_-]*$#", $_POST['slug'])) {
                     $this->category->insertcategory($_POST['name'], $_POST['slug']);
                 }
-            }else{
+            } else {
                 $_SESSION['error'] = 'slug déjà existant';
-                $title = "Ajouter une catégorie";
-                $this->render("admin/category/categoryInsert", ["title" => $title]);
+                return $this->render("admin/category/categoryInsert", ["title" => "Ajouter une catégorie"]);
                 unset($_SESSION['error']);
             }
-            
         }
-
-        $title = "Ajouter une catégorie";
-        
-        $this->render("admin/category/categoryInsert", [
-            "title" => $title
+        return $this->render("admin/category/categoryInsert", [
+            "title" => "Ajouter une catégorie"
         ]);
+    }
+
+    public function categoryDelete($slug, $id)
+    {
+        $this->category->delete($id);
+        header('location: /admin/categories');
     }
 }

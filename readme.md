@@ -28,4 +28,7 @@ Intégration du site bière en MVC, avec le blog en supplément.
 - [x] Ajouter formulaire de contact
 - [x] Variable utilisateur globale
 - [x] Implenter les messages flash
-- [ ] Améliorer code (valeur attendu des fonctions etc...)
+- [x] Mettre en place subscribe
+- [ ] Améliorer code (typage fonctions etc...)
+
+Pistes d'améliorations : méthode de géneration pour verification des $_POST, et générer les columns avant insert.

@@ -18,47 +18,59 @@ class UserController extends Controller
             header('location: /profile');
         }
 
-        if(	isset($_POST["lastname"]) && !empty($_POST["lastname"]) &&
-		isset($_POST["firstname"]) && !empty($_POST["firstname"]) &&
-		isset($_POST["address"]) && !empty($_POST["address"]) &&
-		isset($_POST["zipCode"]) && !empty($_POST["zipCode"]) &&
-		isset($_POST["city"]) && !empty($_POST["city"]) &&
-		isset($_POST["country"]) && !empty($_POST["country"]) &&
-		isset($_POST["phone"]) && !empty($_POST["phone"]) &&
-		isset($_POST["mail"]) && !empty($_POST["mail"]) &&
-		isset($_POST["mailVerify"]) && !empty($_POST["mailVerify"]) &&
-		isset($_POST["password"]) && !empty($_POST["password"]) &&
-		isset($_POST["passwordVerify"]) && !empty($_POST["passwordVerify"])	){
-            if(
-                (filter_var($_POST["mail"], FILTER_VALIDATE_EMAIL) && 
+        if (isset($_POST["lastname"]) && !empty($_POST["lastname"]) &&
+        isset($_POST["firstname"]) && !empty($_POST["firstname"]) &&
+        isset($_POST["address"]) && !empty($_POST["address"]) &&
+        isset($_POST["zipCode"]) && !empty($_POST["zipCode"]) &&
+        isset($_POST["city"]) && !empty($_POST["city"]) &&
+        isset($_POST["country"]) && !empty($_POST["country"]) &&
+        isset($_POST["phone"]) && !empty($_POST["phone"]) &&
+        isset($_POST["mail"]) && !empty($_POST["mail"]) &&
+        isset($_POST["mailVerify"]) && !empty($_POST["mailVerify"]) &&
+        isset($_POST["password"]) && !empty($_POST["password"]) &&
+        isset($_POST["passwordVerify"]) && !empty($_POST["passwordVerify"]) ) {
+            if ((filter_var($_POST["mail"], FILTER_VALIDATE_EMAIL) &&
                     $_POST["mail"] == $_POST["mailVerify"]) &&
                 ($_POST["password"] == $_POST["passwordVerify"])
-            ){
+            ) {
                 $user = $this->user->exist($_POST["mail"]);
                 if (!$user) {
                     $password = password_hash(htmlspecialchars($_POST["password"]), PASSWORD_BCRYPT);
                     $token = substr(md5(uniqid()), 10, 20);
                     $this->user->register(
-                        $_POST["lastname"], $_POST["firstname"], $_POST["address"], $_POST["zipCode"],
-                        $_POST["city"], $_POST["country"], $_POST["phone"], $_POST["mail"], $password, $token);
+                        $_POST["lastname"],
+                        $_POST["firstname"],
+                        $_POST["address"],
+                        $_POST["zipCode"],
+                        $_POST["city"],
+                        $_POST["country"],
+                        $_POST["phone"],
+                        $_POST["mail"],
+                        $password,
+                        $token
+                    );
         
                     $id_user = $this->user->exist($_POST["mail"])->getId();
                     $url = $this->generateUrl('checking', ['token' => $token, 'id_user' => $id_user]);
-                    $msg = ["html" => "Veuillez cliquer sur le lien pour confirmer votre compte!<br/>
-                            <a href='http://localhost".$url."'>http://localhost".$url."</a>"];
+                    $msgUrl = "http://localhost".$url;
+
+                    $msg = ["html" => MailController::setMsg($msgUrl, $_POST['firstname'])];
                     MailController::envoiMail("Confirmation compte", $_POST["mail"], $msg);
                     //rediriger sur page profil
                     $_SESSION['success'] = 'Votre inscription s\'est bien déroulée, veuillez la confirmer en vous rendant sur votre boîte mail';
-                    header('location: /connect');
-                }else{
+                    $this->render('user/connect', ["title" => "Connexion"]);
+                    unset($_SESSION['success']);
+                } else {
                     $_SESSION['error'] = 'Adresse mail déjà enregistré';
                     $this->render('user/register', ["title" => "Enregistrement"]);
                     unset($_SESSION['error']);
+                    return;
                 }
-            }else{
+            } else {
                 $_SESSION['error'] = 'Adresse mail ou mot de passe non valide';
                 $this->render('user/register', ["title" => "Enregistrement"]);
                 unset($_SESSION['error']);
+                return;
             }
         }
 
@@ -73,16 +85,12 @@ class UserController extends Controller
         $token_check = $this->user->findBy("token", $token);
         $id_check = $this->user->findBy("id_user", $id);
 
-        if($token_check[0] == $id_check[0]){
+        if ($token_check[0] == $id_check[0]) {
             $this->user->deleteToken($id);
             $check = 'ok';
-            $this->render('user/checking', ["title" => $title, "check" => $check]);
-        }else{
-            $this->render(
-                'user/checking',
-                [
-                    "title" => $title
-                ]);
+            return $this->render('user/checking', ["title" => $title, "check" => $check]);
+        } else {
+            return $this->render('user/checking', ["title" => $title]);
         }
     }
 
@@ -100,30 +108,32 @@ class UserController extends Controller
                     $auth = $this->connected($user);
                     header('location: /profile');
                     exit();
-                }elseif ($user->getToken() === "CHMOD777") {
+                } elseif ($user->getToken() === "CHMOD777") {
                     $auth = $this->connected($user);
                     header('location: /admin');
                     exit();
-                }else{
+                } else {
                     $_SESSION['error'] = 'Veuillez vérifier vos email, afin de valider votre inscription.';
-                    $this->render('user/connect',["title" => "Connexion"]);
+                    $this->render('user/connect', ["title" => "Connexion"]);
                     unset($_SESSION['error']);
+                    return;
                 }
-            }else{
+            } else {
                 $_SESSION['error'] = 'Erreur d\'identification';
-                $this->render('user/connect',["title" => "Connexion"]);
+                $this->render('user/connect', ["title" => "Connexion"]);
                 unset($_SESSION['error']);
+                return;
             }
         }
 
-        $this->render('user/connect',["title" => "Connexion"]);
+        $this->render('user/connect', ["title" => "Connexion"]);
         unset($_SESSION['error']);
         unset($_SESSION['success']);
     }
 
     public function profile()
     {
-        if(empty($_SESSION['auth'])){
+        if (empty($_SESSION['auth'])) {
             header("location: /connect");
             exit();
         }
@@ -131,16 +141,22 @@ class UserController extends Controller
         $auth = $_SESSION['auth'];
 
         if (isset($_POST["lastname"]) && !empty($_POST["lastname"]) &&
-		isset($_POST["firstname"]) && !empty($_POST["firstname"]) &&
-		isset($_POST["address"]) && !empty($_POST["address"]) &&
-		isset($_POST["zipCode"]) && !empty($_POST["zipCode"]) &&
-		isset($_POST["city"]) && !empty($_POST["city"]) &&
-		isset($_POST["country"]) && !empty($_POST["country"]) &&
-		isset($_POST["phone"]) && !empty($_POST["phone"])) {
+        isset($_POST["firstname"]) && !empty($_POST["firstname"]) &&
+        isset($_POST["address"]) && !empty($_POST["address"]) &&
+        isset($_POST["zipCode"]) && !empty($_POST["zipCode"]) &&
+        isset($_POST["city"]) && !empty($_POST["city"]) &&
+        isset($_POST["country"]) && !empty($_POST["country"]) &&
+        isset($_POST["phone"]) && !empty($_POST["phone"])) {
             if ((int)$_POST['id'] === $auth->getId()) {
                 $this->user->updateInfo(
-                    $_POST["lastname"], $_POST["firstname"], $_POST["address"], $_POST["zipCode"],
-                    $_POST["city"], $_POST["country"], $_POST["phone"], $_POST['id']
+                    $_POST["lastname"],
+                    $_POST["firstname"],
+                    $_POST["address"],
+                    $_POST["zipCode"],
+                    $_POST["city"],
+                    $_POST["country"],
+                    $_POST["phone"],
+                    $_POST['id']
                 );
                 $_SESSION['success'] = 'Vos informations ont été mis à jour';
                 $user = $this->user->exist($_POST["mail"]);
@@ -155,15 +171,17 @@ class UserController extends Controller
                     ]
                 );
                 unset($_SESSION['success']);
-            }else{
+                return;
+            } else {
                 $_SESSION['error'] = 'Tentative de piratage échouée';
                 unset($_SESSION['auth']);
                 $this->render('user/connect', ["title" => $title]);
                 unset($_SESSION['error']);
+                return;
             }
         }
 
-        if (isset($_POST["passwordOld"]) && !empty($_POST["passwordOld"]) && 
+        if (isset($_POST["passwordOld"]) && !empty($_POST["passwordOld"]) &&
             isset($_POST["password"]) && !empty($_POST["password"]) &&
             isset($_POST["passwordVerify"]) && !empty($_POST["passwordVerify"])) {
             if ($_POST["password"] === $_POST["passwordVerify"]) {
@@ -183,7 +201,8 @@ class UserController extends Controller
                         ]
                     );
                     unset($_SESSION['success']);
-                }else{
+                    return;
+                } else {
                     $_SESSION['error'] = 'Ancien mot de passe incorrect';
                     $user = $this->user->exist($auth->getMail());
                     $orders = $this->orders->allById($auth->getId());
@@ -196,8 +215,9 @@ class UserController extends Controller
                         ]
                     );
                     unset($_SESSION['error']);
+                    return;
                 }
-            }else{
+            } else {
                 $_SESSION['error'] = 'Mots de passe non identique';
                 $user = $this->user->exist($auth->getMail());
                 $orders = $this->orders->allById($auth->getId());
@@ -210,9 +230,9 @@ class UserController extends Controller
                     ]
                 );
                 unset($_SESSION['error']);
+                return;
             }
         }
-        dump($_SESSION);
         $user = $this->user->exist($auth->getMail());
         $orders = $this->orders->allById($auth->getId());
         $this->render(

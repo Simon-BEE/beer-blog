@@ -20,7 +20,7 @@ class BeerController extends Controller
 
         $beers = $paginatedQuery->getItems();
         $title = 'Les bières';
-        $this->render(
+        return $this->render(
             'beer/all',
             [
                 "title" => $title,
@@ -48,7 +48,7 @@ class BeerController extends Controller
         }
         $title = "article : " . $beer->getName();
 
-        $this->render(
+        return $this->render(
             "beer/show",
             [
                 "title" => $title,

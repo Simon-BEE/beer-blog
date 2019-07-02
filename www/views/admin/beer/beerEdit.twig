@@ -33,10 +33,11 @@
     </form>
     <h4>Price</h4>
     <form action="" method="post">
-        <input type="text" name="beer_price" value="{{ beer.price }}">
+        <input type="text" name="beer_price" value="{{ beer.price | number_format(2, '.', ',') }}">
         <input type="hidden" name="beer_id" value="{{ beer.id }}">
         <button type="submit">Update</button>
     </form>
+    <p><a href="{{ beer.deleteURL }}">SUPPRIMER</a></p>
     </article>
 </section>
 {% endblock %}

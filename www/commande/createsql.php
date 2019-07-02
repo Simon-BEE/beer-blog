@@ -78,6 +78,11 @@ $pdo->exec("CREATE TABLE comment (
     `postedAt` datetime default CURRENT_TIMESTAMP
     )");
 echo "||";
+$pdo->exec("CREATE TABLE subscribe (
+    `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `email` VARCHAR(255) not null
+    )");
+echo "||";
 
 //vidage table
 $pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
@@ -88,6 +93,7 @@ $pdo->exec('TRUNCATE TABLE orders');
 $pdo->exec('TRUNCATE TABLE beer');
 $pdo->exec('TRUNCATE TABLE category');
 $pdo->exec('TRUNCATE TABLE comments');
+$pdo->exec('TRUNCATE TABLE subscribe');
 $pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
 echo "||||||||||||";
 $faker = Faker\Factory::create('fr_FR');

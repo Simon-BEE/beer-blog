@@ -10,10 +10,11 @@
     <p>Client n°{{ order.idUser }}</p>
     <ul>
     {% for product in products %}
-        <li>{{ product.name }} - {{ product.qty }} x {{ product.price }}</li>
+        <li>{{ product.name }} - {{ product.qty }} x {{ product.price | number_format(2, ',', '.') }}€</li>
     {% endfor %}
     </ul>
-    <h4>Total de {{ order.priceTTC }}€</h4>
+    <h4>Total de {{ order.priceTTC | number_format(2, ',', '.')}}€</h4>
+    <p><a href="{{ order.deleteURL }}">SUPPRIMER</a></p>
     </article>
 </section>
 {% endblock %}

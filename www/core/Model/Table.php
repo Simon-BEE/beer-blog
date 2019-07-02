@@ -31,12 +31,12 @@ class Table
         return $this->db->lastInsertId();
     }
 
-    public function find($id)
+    public function find(int $id)
     {
         return $this->query("SELECT * FROM {$this->table} WHERE id=?", [$id], true);
     }
 
-    public function findBy($what, $attributes, $one = false)
+    public function findBy(string $what, string $attributes, bool $one = false)
     {
         return $this->query("SELECT * FROM {$this->table} WHERE $what = ?", [$attributes], $one);
     }
@@ -79,8 +79,13 @@ class Table
         return $this->query("SELECT * FROM {$this->table} ORDER BY id");
     }
 
-    public function update($column, $news, $id)
+    public function update(string $column, string $news, int $id)
     {
         return $this->db->query("UPDATE {$this->table} SET $column = '$news'  WHERE id = $id");
+    }
+
+    public function delete($id)
+    {
+        return $this->db->query("DELETE FROM {$this->table} WHERE id = $id");
     }
 }

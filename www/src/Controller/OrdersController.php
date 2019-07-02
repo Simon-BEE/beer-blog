@@ -10,24 +10,27 @@ class OrdersController extends Controller
         $this->loadModel('post');
         $this->loadModel('beer');
         $this->loadModel('orders');
+        $this->loadModel('user');
     }
 
     public function order()
     {
         $beers = $this->beer->all();
+        $user = $_SESSION['auth'];
         $title = 'Commander';
         if (empty($_POST)) {
-            $this->render(
+            return $this->render(
                 'orders/order',
                 [
                     "title" => $title,
-                    "beers" => $beers
+                    "beers" => $beers,
+                    "user"  => $user
                 ]
             );
         }
         
 
-        if(isset($_POST)  && !empty($_POST)) {
+        if (isset($_POST)  && !empty($_POST)) {
             $auth = $_SESSION['auth'];
             $beerArray = $this->beer->all();
             $quantity = $_POST['qty'];
@@ -57,13 +60,15 @@ class OrdersController extends Controller
             exit();
         }
         
+        $user = $this->user->find($order->getIdUser());
         $title = "Confirmation de commande";
-        $this->render(
+        return $this->render(
             'orders/confirm',
             [
                 "title" => $title,
                 "order" => $order,
-                "products" => $products
+                "products" => $products,
+                "user" => $user
             ]
         );
     }

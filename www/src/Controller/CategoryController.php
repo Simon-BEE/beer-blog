@@ -27,7 +27,7 @@ class CategoryController extends Controller
         }
         $title = "Catégories";
 
-        $this->render(
+        return $this->render(
             "category/all",
             [
                 "title" => $title,
@@ -63,7 +63,7 @@ class CategoryController extends Controller
         );
 
         $postById = $paginatedQuery->getItemsInId($id);
-        $this->render(
+        return $this->render(
             "category/show",
             [
                 "title" => $title,

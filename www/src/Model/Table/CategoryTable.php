@@ -33,8 +33,8 @@ class CategoryTable extends Table
         (`name`, `slug`) 
         VALUES ( :name, :slug)";
         $attributes = [
-            ":name"		    => $name,
-            ":slug"	        => $slug
+            ":name"         => $name,
+            ":slug"         => $slug
         ];
         return $this->query($sql, $attributes);
     }

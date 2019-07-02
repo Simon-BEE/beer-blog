@@ -7,10 +7,10 @@
     <div class="form">
         <form class="login-form" method="POST" action="" id="formPurchase">
             <div class="form_row">
-                <input type="email" name="mail" placeholder="Votre email" value="{{ user.mail }}"/>
+                <input type="email" name="mail" placeholder="Votre email" value="{{ user.mail }}"required/>
             </div>
             <div class="form_row">
-                <input type="text" name="name" placeholder="Votre nom" value="{{ user.firstname }} {{ user.lastname }}"/>
+                <input type="text" name="name" placeholder="Votre nom" value="{{ user.firstname }} {{ user.lastname }}"required/>
             </div>
             <div class="form_row">
                 <input type="text" name="subject" placeholder="Sujet" required/>

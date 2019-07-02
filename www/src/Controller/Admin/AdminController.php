@@ -1,8 +1,10 @@
 <?php
 namespace App\Controller\Admin;
+
 use \Core\Controller\Controller;
 use \Core\Controller\PaginatedQueryController;
 use App\Controller\PaginatedQueryAppController;
+
 class AdminController extends Controller
 {
     public function __construct()
@@ -21,7 +23,7 @@ class AdminController extends Controller
         $latestBeer = $this->beer->latestById();
         $latestOrder = $this->orders->latestById();
         $title = "Index";
-        $this->render("admin/index", [
+        return $this->render("admin/index", [
             "title" => $title,
             "post" => $latestPost,
             "category" => $latestCategory,
@@ -38,7 +40,7 @@ class AdminController extends Controller
         );
         $postById = $paginatedQuery->getItems();
         $title = "Posts";
-        $this->render("admin/post/posts", [
+        return $this->render("admin/post/posts", [
             "title" => $title,
             "posts" => $postById,
             "paginate" => $paginatedQuery->getNavHtml()
@@ -52,7 +54,7 @@ class AdminController extends Controller
         );
         $categories = $paginatedQuery->getItems();
         $title = "Categories";
-        $this->render("admin/category/categories", [
+        return $this->render("admin/category/categories", [
             "title" => $title,
             "categories" => $categories,
             "paginate" => $paginatedQuery->getNavHtml()
@@ -62,7 +64,7 @@ class AdminController extends Controller
     {
         $users = $this->user->allWithoutLimit();
         $title = "Users";
-        $this->render("admin/user/users", [
+        return $this->render("admin/user/users", [
             "title" => $title,
             "users" => $users
             ]);
@@ -75,7 +77,7 @@ class AdminController extends Controller
         );
         $beers = $paginatedQuery->getItems();
         $title = "Beers";
-        $this->render("admin/beer/beers", [
+        return $this->render("admin/beer/beers", [
             "title" => $title,
             "beers" => $beers,
             "paginate" => $paginatedQuery->getNavHtml()
@@ -85,7 +87,7 @@ class AdminController extends Controller
     {
         $orders = $this->orders->allWithoutLimit();
         $title = "Orders";
-        $this->render("admin/order/orders", [
+        return $this->render("admin/order/orders", [
             "title" => $title,
             "orders" => $orders
             ]);

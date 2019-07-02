@@ -9,22 +9,22 @@
 		<div class="form">
 			<form class="login-form" method="POST" action="" id="formPurchase">
 				<div class="form_row">
-					<input type="text" name="lastname" value="{{ user.lastname }}" required/>
-					<input type="text" name="firstname" value="{{ user.firstname }}" required/>
+					<input type="text" name="lastname" value="{{ user.lastname }}" placeholder="Prénom" required/>
+					<input type="text" name="firstname" value="{{ user.firstname }}" placeholder="Nom" required/>
 				</div>
 				<div class="form_row">
-					<input type="text" name="address" value="{{ user.address }}" required/>
-					<input type="text" name="zipCode" value="{{ user.zipCode }}" required/>
+					<input type="text" name="address" value="{{ user.address }}" placeholder="Adresse" required/>
+					<input type="text" name="zipCode" value="{{ user.zipCode }}" placeholder="Code Postal" required/>
 				</div>
 				<div class="form_row">
-					<input type="text" name="city" value="{{ user.city }}" required/>
-					<input type="text" name="country" value="{{ user.country }}" required/>
+					<input type="text" name="city" value="{{ user.city }}" placeholder="Ville" required/>
+					<input type="text" name="country" value="{{ user.country }}" placeholder="Pays" required/>
 				</div>
 				<div class="form_row">
-					<input type="tel" name="phone" value="{{ user.phone }}" required/>
+					<input type="tel" name="phone" value="{{ user.phone }}" placeholder="Téléphone" required/>
 				</div>
 				<div class="form_row">
-					<input type="email" name="mail" value="{{ user.mail }}" disabled/>
+					<input type="email" name="mail" value="{{ user.mail }}" placeholder="Email" disabled/>
 				</div>
 				<table>
 					<thead>
@@ -39,18 +39,19 @@
 						{% for beer in beers %}
 							<tr>
 								<td>{{ beer.name }}</td>
-								<td id="PHT_{{ beer.id }}">{{ beer.price }}€</td>
-								<td id="PTTC_{{ beer.id }}">{{ beer.price * 1.2 }}€</td>
+								<td id="PHT_{{ beer.id }}">{{ beer.price | number_format(2, ',', '.') }}€</td>
+								<td id="PTTC_{{ beer.id }}">{{ (beer.price * 1.2)  | number_format(2, ',', '.')}}€</td>
 								<td><input type="number" min="0" name="qty[{{ beer.id }}]" value="0" oninput="calcPrice(this, {{ beer.id }}, {{ beer.price }});" /></td>
 							</tr>
 						{% endfor %}
 					</tbody>
-					<tfoot>
+					{# <tfoot>
 						<tr>
 							<th>Total</th>
 							<th colspan="3" id="totaux"></th>
 						</tr>
-					</tfoot>
+					</tfoot> #}
+					
 				</table>
 				{% if user %}
 				<button type="submit">COMMANDER</button>

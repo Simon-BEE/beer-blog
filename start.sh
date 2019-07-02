@@ -12,8 +12,9 @@ docker-compose build
 
 docker-compose -f docker-compose.yml up -d
 
-sleep 4;
+sleep 10;
 
+docker exec beer composer update
 
 docker exec beer php commande/createsql.php
 

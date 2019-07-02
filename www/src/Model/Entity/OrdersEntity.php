@@ -62,4 +62,12 @@ class OrdersEntity extends Entity
             "id_user" => $this->getIdUser()
         ]);
     }
+
+    public function deleteUrl():string
+    {
+        return \App\App::getInstance()->getRouter()->url("admin_order_delete", [
+            "id" => $this->getId(),
+            "id_user" => $this->getIdUser()
+        ]);
+    }
 }

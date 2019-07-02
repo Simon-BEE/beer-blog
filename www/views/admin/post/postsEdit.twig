@@ -30,7 +30,7 @@
     <a href="{{ category.AdminUrl }}">{{ category.name }}</a>
 {% endfor %}
     </p>
-    <h4>Add a category</h4>
+    <h4>Add a category / NOT WORKING</h4>
     <form action="" method="post">
         <select class="select-form" name="select">
             <option value="">--Please choose an option--</option>
@@ -39,6 +39,7 @@
             {% endfor %}
         </select>
     </form>
+    <p><a href="{{ post.deleteURL }}">SUPPRIMER</a></p>
     </article>
 </section>
 {% endblock %}

@@ -25,7 +25,7 @@ class OrderEditController extends Controller
         $products = $order->getProducts();
         $title = "Commande n°".$order->getId();
         
-        $this->render("admin/order/orderEdit", [
+        return $this->render("admin/order/orderEdit", [
             "title" => $title,
             "order" => $order,
             "products" => $products
@@ -45,7 +45,7 @@ class OrderEditController extends Controller
             if (!empty($_POST['order_slug']) && $id === $_POST['order_id']) {
                 if (preg_match("#^[a-zA-Z0-9_-]*$#", $_POST['order_slug'])) {
                     $this->order->update('slug', $_POST['order_slug'], $id);
-                header('Location: ' . $url);
+                    header('Location: ' . $url);
                 } else {
                     dd('error');
                 }
@@ -61,5 +61,11 @@ class OrderEditController extends Controller
                 header('Location: ' . $url);
             }
         }
+    }
+
+    public function orderDelete($id, $id_user)
+    {
+        $this->orders->delete($id);
+        header('location: /admin/orders');
     }
 }

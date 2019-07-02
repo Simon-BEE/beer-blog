@@ -35,7 +35,6 @@ class RouterController
     {
         $match = $this->router->match();
         if (is_array($match)) {
-            
             if (strpos($match['target'], "#")) {
                 if (strpos($match['target'], "admin") === 0 && (empty($_SESSION['auth']) || $_SESSION['auth']->getToken() !== "CHMOD777" )) {
                     header('location: /');

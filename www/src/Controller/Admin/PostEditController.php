@@ -1,7 +1,9 @@
 <?php
 namespace App\Controller\Admin;
+
 use \Core\Controller\Controller;
 use \Core\Controller\PaginatedQueryController;
+
 class PostEditController extends Controller
 {
     public function __construct()
@@ -27,7 +29,7 @@ class PostEditController extends Controller
         
         $title = $post->getName();
         
-        $this->render("admin/post/postsEdit", [
+        return $this->render("admin/post/postsEdit", [
             "title" => $title,
             "categories" => $categories,
             "post" => $post,
@@ -41,7 +43,7 @@ class PostEditController extends Controller
         if (isset($_POST)) {
             $id = $_POST['post_id'];
             if (!empty($_POST['post_name'])) {
-                (string)$name = $_POST['post_name'];
+                $name = $_POST['post_name'];
                 $this->post->update("name", $name, $id);
                 header('location: '.$url);
             }
@@ -55,7 +57,7 @@ class PostEditController extends Controller
                 }
             }
             if (!empty($_POST['post_content'])) {
-                (string)$content = $_POST['post_content'];
+                (string)$content = htmlspecialchars($_POST['post_content']);
                 $this->post->update("content", $content, $id);
                 header('location: '.$url);
             }
@@ -79,16 +81,16 @@ class PostEditController extends Controller
                 if (preg_match("#^[a-zA-Z0-9_-]*$#", $_POST['slug'])) {
                     $this->post->insertPost($_POST['name'], $_POST['slug'], $_POST['content']);
                 }
-            }else{
+            } else {
                 $_SESSION['error'] = 'slug déjà existant';
                 $title = "Ajouter un article";
                 $categories = $this->category->allWithoutLimit();
-                $this->render("admin/post/postInsert", ["title" => $title,"categories" => $categories]);
+                return $this->render("admin/post/postInsert", ["title" => $title,"categories" => $categories]);
                 unset($_SESSION['error']);
             }
             $categ = $this->category->allWithoutLimit();
             
-            for ($i=1; $i <= count($categ); $i++) { 
+            for ($i=1; $i <= count($categ); $i++) {
                 if ($_POST[$i]) {
                     $post_id = $this->post->latestById()->getId();
                     $this->post_category->insertPC($post_id, $i);
@@ -98,9 +100,15 @@ class PostEditController extends Controller
         $categories = $this->category->allWithoutLimit();
         $title = "Ajouter un article";
         
-        $this->render("admin/post/postInsert", [
+        return $this->render("admin/post/postInsert", [
             "title" => $title,
             "categories" => $categories
         ]);
+    }
+
+    public function postDelete($slug, $id)
+    {
+        $this->post->delete($id);
+        header('location: /admin/posts');
     }
 }

@@ -1,3 +1,4 @@
+var totaux = 0;
 function calcPrice(obj, id, originalPrice)
 {
 	var qty = obj.value;
@@ -6,10 +7,14 @@ function calcPrice(obj, id, originalPrice)
 
 	pHT = (pHT * qty);
 	var pTTC =  pHT * 1.2;
+	
+	//totaux += (originalPrice * qty);
 
 	document.getElementById('PHT_'+id).innerHTML = String(pHT.toFixed(2)).replace('.', ',')+"€";
 	document.getElementById('PTTC_'+id).innerHTML = String(pTTC.toFixed(2)).replace('.', ',')+"€";
+	//document.getElementById('totaux').innerHTML = String(totaux.toFixed(2)).replace('.', ',')+"€";
 	console.log(pTTC);
+	//console.log(totaux);
 }
 
 var acc = document.getElementsByClassName("accordion");

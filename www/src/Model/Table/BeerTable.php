@@ -22,11 +22,11 @@ class BeerTable extends Table
         (`name`, `slug`, `img`, `content`, `price`) 
         VALUES ( :name, :slug, :img, :content, :price)";
         $attributes = [
-            ":name"		    => $name,
-            ":slug"	        => $slug,
-            ":img"		    => $img,
-            ":content"		=> $content,
-            ":price"		=> $price
+            ":name"         => $name,
+            ":slug"         => $slug,
+            ":img"          => $img,
+            ":content"      => $content,
+            ":price"        => $price
         ];
         return $this->query($sql, $attributes);
     }

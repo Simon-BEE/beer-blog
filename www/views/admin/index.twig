@@ -35,7 +35,7 @@
     <article class="onePost">
     <h2>Latest order</h2>
     <h3>Commande n°{{ order.id }}</h3>
-    <p>Client n°{{ order.idUser }} - {{ order.priceTTC }}€</p>
+    <p>Client n°{{ order.idUser }} - {{ order.priceTTC | number_format(2, ',', '.')}}€</p>
     <p><a href="{{ order.AdminUrl }}">show</a></p>
     </article>
     

@@ -92,4 +92,12 @@ class PostEntity extends Entity
             "id" => $this->getId()
         ]);
     }
+
+    public function deleteUrl():string
+    {
+        return \App\App::getInstance()->getRouter()->url("admin_post_delete", [
+            "slug" => $this->getSlug(),
+            "id" => $this->getId()
+        ]);
+    }
 }

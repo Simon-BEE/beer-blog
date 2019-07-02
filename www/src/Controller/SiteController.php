@@ -10,21 +10,54 @@ class SiteController extends Controller
     {
         $this->loadModel('post');
         $this->loadModel('beer');
+        $this->loadModel('subscribe');
     }
 
     public function index()
     {
+        if (isset($_POST['subscribe']) && !empty($_POST['subscribe'])) {
+            if (filter_var($_POST['subscribe'], FILTER_VALIDATE_EMAIL)) {
+                $this->subscribe->subscribe($_POST['subscribe']);
+                $_SESSION['success'] = "Email enregistré, vous recevrez la prochaine newsletter très bientôt";
+                $lastBeers = $this->beer->lastThird();
+                $lastPosts = $this->post->lastThird();
+                return $this->render(
+                    'site/index',
+                    [
+                        "title" => 'HOME',
+                        "posts" => $lastPosts,
+                        "beers" => $lastBeers
+                    ]
+                );
+                unset($_SESSION['success']);
+            } else {
+                $_SESSION['error'] = "Format d'email non valide";
+                $lastBeers = $this->beer->lastThird();
+                $lastPosts = $this->post->lastThird();
+                return $this->render(
+                    'site/index',
+                    [
+                        "title" => 'HOME',
+                        "posts" => $lastPosts,
+                        "beers" => $lastBeers
+                    ]
+                );
+                unset($_SESSION['error']);
+            }
+        }
+
         $lastBeers = $this->beer->lastThird();
         $lastPosts = $this->post->lastThird();
-        $title = 'HOME';
-        $this->render(
+        return $this->render(
             'site/index',
             [
-                "title" => $title,
+                "title" => 'HOME',
                 "posts" => $lastPosts,
                 "beers" => $lastBeers
             ]
         );
+        unset($_SESSION['success']);
+        unset($_SESSION['error']);
     }
 
     public function contact()
@@ -42,7 +75,7 @@ class SiteController extends Controller
         }
         
         $title = 'Contact';
-        $this->render(
+        return $this->render(
             'site/contact',
             [
                 "title" => $title

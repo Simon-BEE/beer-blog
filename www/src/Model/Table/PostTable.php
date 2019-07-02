@@ -97,9 +97,9 @@ class PostTable extends Table
         (`name`, `slug`, `content`, `created_at`) 
         VALUES ( :name, :slug, :content, :created_at)";
         $attributes = [
-            ":name"		    => $name,
-            ":slug"	        => $slug,
-            ":content"		=> $content,
+            ":name"         => $name,
+            ":slug"         => $slug,
+            ":content"      => $content,
             ":created_at"    => $createdAt
         ];
         return $this->query($sql, $attributes);

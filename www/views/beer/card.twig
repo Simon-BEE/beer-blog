@@ -3,6 +3,7 @@
     <div class="content-article">
         <h3>{{ beer.name }}</h3>
         <p>{{ beer.content | slice(0, 150) }}...</p>
+        <p>{{ (beer.price * 1.2) | number_format(2, ',', '.') }}€</p>
         <p><a href="{{ beer.url }}">Read more</a></p>
     </div>
 </article>

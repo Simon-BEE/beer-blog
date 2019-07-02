@@ -88,4 +88,12 @@ class BeerEntity extends Entity
             "id" => $this->getId()
         ]);
     }
+
+    public function deleteUrl():string
+    {
+        return \App\App::getInstance()->getRouter()->url("admin_beer_delete", [
+            "slug" => $this->getSlug(),
+            "id" => $this->getId()
+        ]);
+    }
 }

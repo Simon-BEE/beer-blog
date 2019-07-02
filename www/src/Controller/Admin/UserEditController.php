@@ -25,7 +25,7 @@ class UserEditController extends Controller
         
         $title = $user->getMail();
         
-        $this->render("admin/user/userEdit", [
+        return $this->render("admin/user/userEdit", [
             "title" => $title,
             "user" => $user
         ]);
@@ -41,11 +41,17 @@ class UserEditController extends Controller
                 $this->user->update('mail', $mail, $user_id);
                 header('location: '.$url);
             }
-            if (!empty($_POST['user_token'])) {
+            if (isset($_POST['user_token'])) {
                 $token = $_POST['user_token'];
                 $this->post->update("token", $token, $user_id);
                 header('location: '.$url);
             }
         }
+    }
+
+    public function userDelete($firstname, $id)
+    {
+        $this->user->delete($id);
+        header('location: /admin/users');
     }
 }

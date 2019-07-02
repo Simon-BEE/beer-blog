@@ -25,7 +25,7 @@ class BeerEditController extends Controller
         
         $title = $beer->getName();
         
-        $this->render("admin/beer/beerEdit", [
+        return $this->render("admin/beer/beerEdit", [
             "title" => $title,
             "beer" => $beer
         ]);
@@ -45,7 +45,7 @@ class BeerEditController extends Controller
             if (!empty($_POST['beer_slug']) && $id === $_POST['beer_id']) {
                 if (preg_match("#^[a-zA-Z0-9_-]*$#", $_POST['beer_slug'])) {
                     $this->beer->update('slug', $_POST['beer_slug'], $id);
-                header('Location: ' . $url);
+                    header('Location: ' . $url);
                 } else {
                     dd('error');
                 }
@@ -81,21 +81,26 @@ class BeerEditController extends Controller
                 if (preg_match("#^[a-zA-Z0-9_-]*$#", $_POST['slug']) && is_int($price)) {
                     $this->beer->insertBeer($_POST['name'], $_POST['slug'], $_POST['img'], $_POST['content'], $price);
                 }
-            }else{
+            } else {
                 $_SESSION['error'] = 'slug déjà existant';
                 $title = "Ajouter une bière";
-                $this->render("admin/beer/beerInsert", ["title" => $title]);
+                return $this->render("admin/beer/beerInsert", ["title" => $title]);
                 unset($_SESSION['error']);
             }
-            
         }
 
         $title = "Ajouter une bière";
         
-        $this->render("admin/beer/beerInsert", [
+        return $this->render("admin/beer/beerInsert", [
             "title" => $title
         ]);
         unset($_SESSION['error']);
         unset($_SESSION['success']);
+    }
+
+    public function beerDelete($slug, $id)
+    {
+        $this->beer->delete($id);
+        header('location: /admin/beers');
     }
 }
