@@ -5,54 +5,107 @@
 {% block content %}
 
 <section class="confirm">
-	<h2>Commande n°{{ order.id }}</h2>
-	<div class="table-confirm">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Prix TTC</th>
-                    <th>Nombre</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for product in products %}
-                <tr>
-                    <td>{{ product.name }}</td>
-                    <td>{{ (product.price * 1.2) | number_format(2, ',', '.') }}€</td>
-                    <td>{{ product.qty }}</td>
-                    <td>{{ ((product.price * 1.2) * product.qty) | number_format(2, ',', '.') }}€</td>
-                </tr>
-            {% endfor %}
-                
-                
-            </tbody>
-            <tfoot>
-                    {% if order.priceTTC < 30 %}
-                <tr>
-                    <th>Frais de port</th>
-                    <th colspan="3">5,40€*</th>
-                </tr>
-                <tr>
-                    <th>Total</th>
-                    <th colspan="3">{{ (order.priceTTC + 5.40) | number_format(2, ',', '.') }}€</th>
-                </tr>
-                    {% else %}
-                <tr>
-                    <th>Total</th>
-                    <th colspan="3">{{ order.priceTTC | number_format(2, ',', '.')}}€</th>
-                </tr>
-                    {% endif %}
-            </tfoot>
-        </table>
-        
-    </div>
-    <p>Votre commande sera livré à {{ user.city }} en {{ user.country }} au {{ user.address }}.**</p>
-    {% if order.priceTTC < 30 %}
-            <p class="small">*Votre commande est inférieur à 30€, des frais de port de 5,40€ s'ajoute à votre commande.</p>
-    {% endif %}
-    <p class="small">**(temps de livraison estimé 5jours)</p>
+	<h1 class="">Confirmation de commande</h1>
+	{% if lines %}
+		{% if addresses is empty %}
+		<p class="">Veuillez ajouter une adresse sur votre <a href="/profile">profil</a> avant de commander.</p>
+		{% endif %}
+			<h2 class="">Vos adresses</h2>
+		<div class="">
+			{% for address in addresses %}
+				<div id="div{{ address.id }}" class="">
+					<div class="">
+						<h5 class="">{{ address.firstname }} {{ address.lastname }}</h5>
+						<p class="">{{ address.address }}</p>
+						<p class="">{{ address.city }} {{ address.zipcode }} {{ address.country }}</p>
+						<form method="POST" action="#" id="formPurchase" class="">
+							<input type="hidden" name="id" value="{{ address.id }}" />
+							<input type="hidden" name="user_id" value="{{ address.user_id }}" />
+							<button type="button" onclick="chooseAddress({{ address.id }}, {{ address.userId }})" class="btn btn-primary">Choisir</button>
+						</form>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<form method="POST" action="" id="formPurchase" class="">
+			<div class="">
+					<div>
+						<input id="id" class="" type="hidden" name="id" value="">
+					</div>
+					<div>
+						<input id="user_id" class="" type="hidden" name="user_id" value="">
+					</div>
+					<div>
+						<input id="lastname" class="" type="hidden" name="lastname" value="">
+					</div>
+					<div>
+						<input id="firstname" class="" type="hidden" name="firstname" value="">
+					</div>
+					<div>
+						<input id="address" class="" type="hidden" name="address" value="">
+					</div>
+					<div>
+						<input id="zipCode" class="" type="hidden" name="zipCode" value="">
+					</div>
+					<div>
+						<input id="city" class="" type="hidden" name="city" value="">
+					</div>
+					<div>
+						<input id="country" class="" type="hidden" name="country" value="">
+					</div>
+					<div>
+						<input id="phone" class="" type="hidden" name="phone" value="">
+					</div>
+			</div>
+			<table class="">
+				<thead>
+					<tr>
+						<th>Nomination</th>
+						<th>Prix HT</th>
+						<th>Prix TTC</th>
+						<th>Dans le panier</th>
+					</tr>
+				</thead>
+				<tbody>
+						{% for line in lines %}
+						<tr id="test{{ line.id }}" class="pourJs">
+							<td>{{ line.title }}</td>
+							<td id="PHT_{{ key }}" class="cHT">{{ line.priceHT| number_format(2, '.', ',') }}€</td>
+							<td id="PTTC_{{ key }}">{{ (line.priceHT * tva) | number_format(2, '.', ',') }}€</td>
+							<td id="line{{ line.beer_id }}" class="cQTY">{{ line.beerQTY }}</td>
+						</tr>
+						<input type="hidden" name="token" value="{{line.token}}" />
+						{% endfor %}
+					<tr>
+					<td class="" colspan="2"></td>
+						<td colspan="1">TOTAL HT</td>
+						<td id="totalHT"  colspan="1">{{ priceHT }}€</td>
+					</tr>
+					<tr>
+					<td colspan="2"></td>
+						<td colspan="1">TVA</td>
+						<td id="tva"colspan="1">{{ (priceHT * 0.2) | number_format(2, '.', ',') }}€</td>
+					</tr>
+					<tr>
+					<td colspan="2"></td>
+						<td colspan="1">FRAIS DE PORT</td>
+						<td id="fdp" colspan="1">{{ port }}0€</td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td colspan="1">TOTAL TTC</td>
+						<td id="totalTTC" colspan="1">{{ ((priceHT * tva) + port) | number_format(2, '.', ',') }}€</td>
+					</tr>
+				</tbody>
+			</table>
+			<button type="submit">CONFIRMER</button>
+		</form>
+	{% else %}
+	<div class="">
+		<p>Votre panier est vide ! Allez le <a href="/beers">remplir</a> !</p>
+	</div>
+	{% endif %}
 </section>
-
+<script src="/assets/js/scripts.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 {% endblock %}

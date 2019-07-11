@@ -3,6 +3,20 @@ require_once '/var/www/vendor/autoload.php';
 
 $pdo = new PDO('mysql:dbname=beer;host=beer.mysql;', 'userbeer', 'beerpwd');
 
+//Suppression de table 
+
+$pdo->exec('DROP TABLE post_category');
+$pdo->exec('DROP TABLE post');
+$pdo->exec('DROP TABLE subscribe');
+$pdo->exec('DROP TABLE user');
+$pdo->exec('DROP TABLE category');
+$pdo->exec('DROP TABLE ordersLine');
+$pdo->exec('DROP TABLE status');
+$pdo->exec('DROP TABLE config');
+$pdo->exec('DROP TABLE beer');
+$pdo->exec('DROP TABLE orders');
+$pdo->exec('DROP TABLE userInfos');
+$pdo->exec('DROP TABLE comments');
 //creation tables
 echo "[";
 $etape = $pdo->exec("CREATE TABLE post(
@@ -21,22 +35,6 @@ $etape = $pdo->exec("CREATE TABLE category(
             PRIMARY KEY(id)
         )");
 echo "||";
-$etape = $pdo->exec("CREATE TABLE `user` (
-    `id_user` int(11) NOT NULL AUTO_INCREMENT,
-    `lastname` varchar(255) NOT NULL,
-    `firstname` varchar(255) NOT NULL,
-    `address` varchar(255) NOT NULL,
-    `zipCode` varchar(255) NOT NULL,
-    `city` varchar(255) NOT NULL,
-    `country` varchar(255) NOT NULL,
-    `phone` varchar(255) NOT NULL,
-    `mail` varchar(255) NOT NULL,
-    `password` varchar(255) NOT NULL,
-    `token` varchar(255),
-    `createdAt` datetime default CURRENT_TIMESTAMP,
-    PRIMARY KEY(id_user)
-    )");
-echo "||";
 $pdo->exec("CREATE TABLE post_category(
             post_id INT UNSIGNED NOT NULL,
             category_id INT UNSIGNED NOT NULL,
@@ -53,22 +51,41 @@ $pdo->exec("CREATE TABLE post_category(
                 ON UPDATE RESTRICT
         )");
 echo "||";
+
 $pdo->exec("CREATE TABLE `beer` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `name` varchar(255) NOT NULL,
+    `title` varchar(255) NOT NULL,
     `slug` varchar(255) NOT NULL,
     `img` text NOT NULL,
     `content` longtext NOT NULL,
-    `price` float NOT NULL,
-    PRIMARY KEY(id))");
-echo "||";
+    `priceHT` float NOT NULL,
+    `stock` int(11) NULL,
+    PRIMARY KEY(id)
+)");
+echo '||';
+
 $pdo->exec("CREATE TABLE `orders` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `id_user` int(11) NOT NULL,
-    `ids_product` longtext NOT NULL,
-    `priceTTC` float NOT NULL,
-    PRIMARY KEY(id))");
-echo "||";
+    `userInfos_id` int(11) NOT NULL,
+    `priceHT` float NOT NULL,
+    `port` float NOT NULL DEFAULT 0,
+    `ordersTva` float NOT NULL,
+    `created_at` timestamp NULL DEFAULT current_timestamp(),
+    `status_id` int(11) NOT NULL,
+    `token` varchar(10) NOT NULL,
+    PRIMARY KEY(id)
+)");
+
+$pdo->exec("CREATE TABLE `orders_line` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `beer_id` int(11) NOT NULL,
+    `beerPriceHT` float NOT NULL,
+    `beerQTY` int(11) NOT NULL,
+    `token` varchar(10) NOT NULL,
+    PRIMARY KEY(id)
+)");
+
 $pdo->exec("CREATE TABLE comment (
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `post_id` INT not null,
@@ -78,22 +95,66 @@ $pdo->exec("CREATE TABLE comment (
     `postedAt` datetime default CURRENT_TIMESTAMP
     )");
 echo "||";
-$pdo->exec("CREATE TABLE subscribe (
-    `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `email` VARCHAR(255) not null
-    )");
-echo "||";
+
+$pdo->exec("CREATE TABLE `user` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `mail` varchar(255) NOT NULL,
+    `password` varchar(255) NOT NULL,
+    `token` varchar(24) NOT NULL,
+    `createdAt` timestamp NULL DEFAULT current_timestamp(),
+    `verify` tinyint(1) NOT NULL DEFAULT 0,
+    PRIMARY KEY(id)
+)");
+
+$pdo->exec("CREATE TABLE `user_infos` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `lastname` varchar(255) NOT NULL,
+    `firstname` varchar(255) NOT NULL,
+    `address` varchar(255) NOT NULL,
+    `zipCode` varchar(255) NOT NULL,
+    `city` varchar(255) NOT NULL,
+    `country` varchar(255) NOT NULL,
+    `phone` varchar(255) NOT NULL,
+    PRIMARY KEY(id)
+)");
+
+$pdo->exec("CREATE TABLE `status` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `status` varchar(255) NOT NULL,
+    PRIMARY KEY(id)
+)");
+
+$pdo->exec("CREATE TABLE `subscribe` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `email` varchar(255) NOT NULL,
+    PRIMARY KEY(id)
+)");
+
+$pdo->exec("CREATE TABLE `config` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `date` timestamp NULL DEFAULT current_timestamp(),
+    `tva` float NOT NULL,
+    `port` float NOT NULL,
+    `ship_limit` float NOT NULL,
+    PRIMARY KEY(id)
+)");
+
 
 //vidage table
 $pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
 $pdo->exec('TRUNCATE TABLE post_category');
 $pdo->exec('TRUNCATE TABLE post');
-$pdo->exec('TRUNCATE TABLE user');
-$pdo->exec('TRUNCATE TABLE orders');
-$pdo->exec('TRUNCATE TABLE beer');
-$pdo->exec('TRUNCATE TABLE category');
-$pdo->exec('TRUNCATE TABLE comments');
 $pdo->exec('TRUNCATE TABLE subscribe');
+$pdo->exec('TRUNCATE TABLE user');
+$pdo->exec('TRUNCATE TABLE category');
+$pdo->exec('TRUNCATE TABLE ordersLine');
+$pdo->exec('TRUNCATE TABLE comments');
+$pdo->exec('TRUNCATE TABLE status');
+$pdo->exec('TRUNCATE TABLE config');
+$pdo->exec('TRUNCATE TABLE beer');
+$pdo->exec('TRUNCATE TABLE orders');
+$pdo->exec('TRUNCATE TABLE userInfos');
 $pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
 echo "||||||||||||";
 $faker = Faker\Factory::create('fr_FR');
@@ -129,23 +190,9 @@ foreach ($posts as $post) {
     }
 }
 
-$password = password_hash('admin', PASSWORD_BCRYPT);
 echo "||";
 
-$pdo->exec("INSERT INTO user SET
-        lastname='admin',
-        firstname='admin',
-        address='admin',
-        zipCode='777',
-        city='admin',
-        country='CHMOD',
-        phone='777',
-        mail='admin@admin.com',
-        password='{$password}',
-        token='CHMOD777'");
-echo "||]";
-
-$pdo->exec("INSERT INTO `beer` (`id`, `name`, `slug`, `img`, `content`, `price`) VALUES
+$pdo->exec("INSERT INTO `beer` (`id`, `title`, `slug`, `img`, `content`, `priceHT`) VALUES
 (1, 'La Chouffe', 'la-chouffe', 'https://www.beerwulf.com/globalassets/catalog/beerwulf/beers/la-chouffe-blonde-d-ardenne_opt.png?h=500&rev=899257661', 'Bière dorée légèrement trouble à mousse dense, avec un parfum épicé aux notes d’agrumes et de coriandre qui ressortent également au goût.', 1.91),
 (2, 'Duvel', 'duvel', 'https://www.beerwulf.com/globalassets/catalog/beerwulf/beers/duvel_opt.png?h=500&rev=899257661', 'Robe jaune pâle, légèrement trouble, avec une mousse blanche incroyablement riche. L’arôme associe le citron jaune, le citron vert et les épices. La saveur incorpore des agrumes frais, le sucre de l’alcool et une note épicée due au houblon qui tire sur le poivre. En dépit de son taux d’alcool, c’est une bière fraîche qui se déguste facilement. ', 1.66),
 (3, 'Duvel Tripel Hop', 'duvel-tripel-hop', 'https://www.beerwulf.com/globalassets/catalog/beerwulf/beers/duvel-tripel-hop-citra.png?h=500&rev=39990364', 'Une variété supplémentaire de houblon est ajoutée à cette Duvel traditionnelle. Le HBC 291 lui procure un caractère légèrement plus épicé et poivré. Cette bière présente un fort taux d’alcool mais reste très facile à déguster grâce à ses arômes d’agrumes frais et acides, entre autres.', 2.24),
@@ -154,4 +201,16 @@ $pdo->exec("INSERT INTO `beer` (`id`, `name`, `slug`, `img`, `content`, `price`)
 (6, 'Cuvée des Trolls', 'cuvee-des-trolls', 'https://www.beerwulf.com/globalassets/catalog/beerwulf/beers/cuvee_des_trolls_2.png?h=500&rev=923839745', 'Bière brumeuse jaune paille à la mousse blanche consistante. Full body aux arômes fruités d’agrumes et de fruits jaunes. Grande douceur et petite touche acide rafraîchissante, levure. ', 1.29),
 (7, 'Chimay Rouge', 'chimay-rouge', 'https://www.beerwulf.com/globalassets/catalog/beerwulf/beers/chimay---rood_v2.png?h=500&rev=420719671', 'Bière brune à la robe cuivrée avec une mousse durable, délicate et généreuse. Elle présente des arômes fruités de banane. D’autres parfums comme le caramel sucré, le pain frais, le pain grillé et même une touche d’amande sont aussi présents. Les mêmes arômes sucrés se retrouvent au goût et conduisent à une fin de bouche douce et légèrement amère. ', 1.49),
 (8, 'Chimay Bleue', 'chimay-bleue', 'https://www.beerwulf.com/globalassets/catalog/beerwulf/beers/chimay---blauw_v2.png?h=500&rev=420719671', 'La Chimay Blauw, aussi connue sous le nom de Grande Réserve, est une bière trappiste reconnue. Il s’agissait au départ d’une bière de Noël, mais elle est disponible toute l’année depuis 1954. Une bière puissante et chaleureuse aux arômes de caramel et de fruits secs.', 1.74),
-(9, 'Chimay Triple', 'chimay-triple', 'https://www.beerwulf.com/globalassets/catalog/beerwulf/beers/chimay---wit_v2.png?h=500&rev=420719671', 'Robe de couleur doré clair, légèrement trouble avec une belle mousse blanche qui fera saliver les amateurs. Le nez et la bouche sont chargés de fruits comme le raisin et de levure. Une amertume ronde se dégage en fin de bouche.', 1.57)");
+(9, 'Chimay Triple', 'chimay-triple', 'https://www.beerwulf.com/globalassets/catalog/beerwulf/beers/chimay---wit_v2.png?h=500&rev=420719671', 'Robe de couleur doré clair, légèrement trouble avec une belle mousse blanche qui fera saliver les amateurs. Le nez et la bouche sont chargés de fruits comme le raisin et de levure. Une amertume ronde se dégage en fin de bouche.', 1.57)
+");
+
+echo "||";
+
+$pdo->exec("INSERT INTO `config` (tva, port, ship_limit) VALUES (1.2, 5.40, 30)");
+
+echo "||";
+
+$pdo->exec("INSERT INTO `status` (`status`) VALUES ('En attente de paiement'), ('En cours de préparation'), ('Expédiée'), ('Terminée')");
+
+echo "||]
+";

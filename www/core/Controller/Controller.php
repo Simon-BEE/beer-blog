@@ -23,7 +23,21 @@ class Controller
         if (is_null($this->twig)) {
             $loader = new \Twig\Loader\FilesystemLoader(dirname(dirname(__dir__)) . '/views/');
             $this->twig = new \Twig\Environment($loader);
-            $this->twig->addGlobal("session", $_SESSION);
+            if (!empty($_SESSION['auth'])) {
+                $this->twig->addGlobal("auth", $_SESSION['auth']);
+            }
+
+            if (!empty($_SESSION['token'])) {
+                $this->twig->addGlobal("token", $_SESSION['token']);
+            }
+
+            if (!empty($_SESSION['success'])) {
+                $this->twig->addGlobal("success", $_SESSION['success']);
+            }
+
+            if (!empty($_SESSION['error'])) {
+                $this->twig->addGlobal("error", $_SESSION['error']);
+            }
         }
         return $this->twig;
     }

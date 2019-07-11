@@ -36,6 +36,16 @@ class CategoryEntity extends Entity
             ]);
     }
 
+    public function getPostUrl(): string
+    {
+        return \App\App::getInstance()
+            ->getRouter()
+            ->url('post', [
+                "slug" => $this->getSlug(),
+                "id" => $this->getId()
+            ]);
+    }
+
     public function getAdminUrl():string
     {
         return \App\App::getInstance()->getRouter()->url("admin_category_edit", [

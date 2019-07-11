@@ -21,7 +21,7 @@ class AdminController extends Controller
         $latestCategory = $this->category->latestById();
         $latestUser = $this->user->latestById();
         $latestBeer = $this->beer->latestById();
-        $latestOrder = $this->orders->latestById();
+        //$latestOrder = $this->orders->latestById();
         $title = "Index";
         return $this->render("admin/index", [
             "title" => $title,

@@ -43,7 +43,7 @@ class CategoryController extends Controller
         $category = $this->category->find($id);
 
         if (!$category) {
-            throw new Exception('Aucune categorie ne correspond à cet ID');
+            throw new \Exception('Aucune categorie ne correspond à cet ID');
         }
 
         if ($category->getSlug() !== $slug) {

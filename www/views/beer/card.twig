@@ -1,9 +1,16 @@
 <article class="one-post background">
     <img src="{{ beer.img }}" alt="random pic" width="100" height="300">
     <div class="content-article">
-        <h3>{{ beer.name }}</h3>
+        <h3>{{ beer.title }}</h3>
         <p>{{ beer.content | slice(0, 150) }}...</p>
-        <p>{{ (beer.price * 1.2) | number_format(2, ',', '.') }}€</p>
         <p><a href="{{ beer.url }}">Read more</a></p>
+        <p>{{ (beer.priceHT * 1.2) | number_format(2, ',', '.') }}€</p>
+        <form method="POST" action="" class="input-group">
+            <input type="number" name="qty[{{ beer.id }}]" class="form-control col-12 text-right" min="0" value="1" />
+            <input type="hidden" name="beer_id{{ beer.id }}" value="{{ beer.id }}"/>
+            <button class="" type="button" onclick="addBasket({{ beer.id }})">Ajouter au panier</button>
+        </form>
     </div>
 </article>
+<script src="/assets/js/scripts.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>

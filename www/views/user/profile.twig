@@ -5,50 +5,65 @@
 {% block content %}
 
 <section class="profile">
-	<h2>Bienvenue, {{ user.firstname }}!</h2>
+	<h2>Bienvenue !</h2>
 
-	<article class="order-user">
-		<h3>Votre historique de commandes</h3>
-		<div class="order-list">
-        {% if orders is empty %}
-            <p>Aucune commande passée</p>
-        {% else %}
-            <ul>
-			{% for order in orders %}
-				<li><a href="{{ order.url }}">Commande n°{{ order.id }}</a></li>
-			{% endfor %}
-			</ul>
-        {% endif %}
-			
-		</div>
-	</article>
+	<section class="list-profil">
+        <article class="order-user">
+            <h3>Votre historique de commandes</h3>
+            <div class="order-list">
+            {% if orders is empty %}
+                <p>Aucune commande passée</p>
+            {% else %}
+                <ul>
+                {% for order in orders %}
+                    <li><a href="/orders/{{ order.id }}-{{ order.i }}">Commande n°{{ order.i }}</a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+                
+            </div>
+        </article>
+
+        <article class="order-user">
+            <h3>Vos adresses</h3>
+            <div class="order-list">
+            {% if addresses is empty %}
+                <p>Aucune adresse enregistrée </p>
+            {% else %}
+                <ul>
+                {% for address in addresses %}
+                    <li><a href="{{ address.setUrl }}">{{ address.firstname }} {{ address.lastname }}</a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+                
+            </div>
+        </article>
+    </section>
 </section>
 
 <section class="register">
-<h2>Modifier vos infos personnelles</h2>
+<h2>Ajouter une addresse</h2>
 <div class="login-page">
     <div class="form">
-        <form class="login-form" method="POST" action="" id="formPurchase">
+        <form class="login-form" method="POST" action="/profile/add" id="formPurchase">
             <div class="form_row">
-                <input type="text" name="lastname" value="{{ user.lastname }}" required/>
-                <input type="text" name="firstname" value="{{ user.firstname }}" required/>
+                <input type="text" name="lastname" placeholder="Nom" required/>
+                <input type="text" name="firstname" placeholder="Prénom" required/>
             </div>
             <div class="form_row">
-                <input type="text" name="address" value="{{ user.address }}" required/>
-                <input type="text" name="zipCode" value="{{ user.zipCode }}" required/>
+                <input type="text" name="address" placeholder="Adresse" required/>
+                <input type="text" name="zipCode" placeholder="Code Postal" required/>
             </div>
             <div class="form_row">
-                <input type="text" name="city" value="{{ user.city }}" required/>
-                <input type="text" name="country" value="{{ user.country }}" required/>
+                <input type="text" name="city" placeholder="Ville" required/>
+                <input type="text" name="country" placeholder="Pays" required/>
             </div>
             <div class="form_row">
-                <input type="tel" name="phone" value="{{ user.phone }}" required/>
+                <input type="tel" name="phone" placeholder="Téléphone" required/>
             </div>
-            <div class="form_row">
-                <input type="email" name="mail" value="{{ user.mail }}" readonly/>
-            </div>
-			<input type="hidden" name="id" value="{{ user.id }}" />
-            <button type="submit">Modifier</button>
+			<input type="hidden" name="user_id" value="{{ auth.id }}" />
+            <button type="submit">Ajouter une addresse</button>
         </form>
     </div>
 </div>

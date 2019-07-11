@@ -26,7 +26,7 @@
                             <div class="best-content">
                                 <h3>{{ post.name }}</h3>
                                 <p class="best-text">{{ post.content | slice(0, 200)}}</p>
-                                <a href="{{ post.url }}">Read more...</a>
+                                <a href="{{ post.getPostUrl }}">Read more...</a>
                             </div>
                         </div>
                     </article>

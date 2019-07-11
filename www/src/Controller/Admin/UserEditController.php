@@ -12,7 +12,7 @@ class UserEditController extends Controller
 
     public function userEdit($firstname, $id)
     {
-        $user = $this->user->findBy("id_user", $id, true);
+        $user = $this->user->findBy("id", $id, true);
         if (!$user) {
             throw new \Exception('Aucun article ne correspond à cet ID');
         }

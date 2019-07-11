@@ -1,0 +1,54 @@
+{% extends "/layout/default.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<section class="confirm">
+	<div class="">
+        <table class="">
+            <thead>
+            <tr>
+                <th scope="">Nomination</th>
+                <th scope="">Prix HT</th>
+                <th scope="">Prix TTC</th>
+                <th scope="">Quantité</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for key, line in lines %}
+                <tr id="test{{ line.id }}" class="pourJs">
+                    <td>{{ line.title }}</td>
+                    <td id="PHT_{{ key }}" class="cHT">{{ line.beerPriceHT | number_format(2, '.', ',') }}€</td>
+                    <td id="PTTC_{{ key }}">{{ (line.beerPriceHT * 1.2) | number_format(2, '.', ',') }}€</td>
+                    <td id="line{{ line.beer_id }}" class="cQTY">{{ line.beerQTY }}</td>
+                </tr>
+                <input type="hidden" name="token" value="{{line.token}}" />
+                    {% endfor %}
+                <tr>
+                <td class="" ></td>
+                    <td class="" colspan="2">TOTAL HT</td>
+                    <td id="totalHT" class="border-0" >{{ priceHT }}€</td>
+                </tr>
+                <tr>
+                <td class="" colspan="2"></td>
+                    <td class="" >TVA</td>
+                    <td id="tva">{{ (priceHT * 0.2) | number_format(2, '.', ',') }}€</td>
+                </tr>
+                <tr>
+                <td class="" colspan="2"></td>
+                    <td class="" >FRAIS DE PORT</td>
+                    <td id="fdp" >{{ port }}€</td>
+                </tr>
+                <tr>
+                    <td class="" colspan="2"></td>
+                    <td class="">TOTAL TTC</td>
+                    <td id="totalTTC">{{ ((priceHT * tva) + port) | number_format(2, '.', ',') }}€</td>
+                </tr>
+        </tbody>
+        </table>
+    </div>
+</section>
+<script src="/assets/js/scripts.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+{% endblock %}

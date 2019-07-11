@@ -24,7 +24,7 @@
                         <li><a href="/posts">Posts</a></li>
                         <li><a href="/beers">Beers</a></li>
                         <li><a href="/order">Order</a></li>
-                        {% if session.auth is empty %}
+                        {% if auth is empty %}
                         <li><a href="/register">Register</a></li>
                         <li><a href="/connect">Connect</a></li>
                         {% else %}
@@ -32,6 +32,10 @@
                         <li><a href="/logout">Logout</a></li>
                         {% endif %}
                         <li><a href="/contact">Contact</a></li>
+                        {% if auth.token is same as("CHMOD777") %}
+                        <li><a href="/admin">Admin</a></li>
+                        {% endif %}
+                        
                     </ul>
                 </nav>
             </div>
@@ -46,10 +50,10 @@
     </header>
 
     <main>
-    {% if session.success %}
-        <div class="alert-success">{{ session.success }}</div>
-    {% elseif session.error %}
-        <div class="alert-error">{{ session.error }}</div>
+    {% if success %}
+        <div class="alert-success">{{ success }}</div>
+    {% elseif error %}
+        <div class="alert-error">{{ error }}</div>
     {% endif %}
     
         {% block content %}{% endblock %}
@@ -59,6 +63,9 @@
         <div class="social">
             <i class="fab fa-facebook-square"></i><i class="fab fa-twitter-square"></i><i class="fab fa-instagram"></i><i class="fab fa-pinterest-square"></i><i class="fab fa-google-plus-square"></i>
         </div>
+        <p class="footer">
+            <a href="/cgv">Conditions générales de vente</a> | <a href="/mentions">Mentions légales</a>
+        </p>
         <p class="footer">
             © 2019 <span class="span-title">ZeBrewery</span> // All rights reserved
         </p>

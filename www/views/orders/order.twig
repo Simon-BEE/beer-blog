@@ -7,61 +7,46 @@
 	<h2>Passer une commande</h2>
 	<div class="login-page">
 		<div class="form">
-			<form class="login-form" method="POST" action="" id="formPurchase">
-				<div class="form_row">
-					<input type="text" name="lastname" value="{{ user.lastname }}" placeholder="Prénom" required/>
-					<input type="text" name="firstname" value="{{ user.firstname }}" placeholder="Nom" required/>
-				</div>
-				<div class="form_row">
-					<input type="text" name="address" value="{{ user.address }}" placeholder="Adresse" required/>
-					<input type="text" name="zipCode" value="{{ user.zipCode }}" placeholder="Code Postal" required/>
-				</div>
-				<div class="form_row">
-					<input type="text" name="city" value="{{ user.city }}" placeholder="Ville" required/>
-					<input type="text" name="country" value="{{ user.country }}" placeholder="Pays" required/>
-				</div>
-				<div class="form_row">
-					<input type="tel" name="phone" value="{{ user.phone }}" placeholder="Téléphone" required/>
-				</div>
-				<div class="form_row">
-					<input type="email" name="mail" value="{{ user.mail }}" placeholder="Email" disabled/>
-				</div>
-				<table>
-					<thead>
-						<tr>
-							<th>Nomination</th>
-							<th>Prix HT</th>
-							<th>Prix TTC</th>
-							<th>Quantité</th>
+			<table>
+				<thead>
+					<tr>
+						<th>Nomination</th>
+						<th>Prix HT</th>
+						<th>Prix TTC</th>
+						<th>Quantité</th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<form method="POST" action="/shop/confirmation" id="formPurchase" class="form">
+						{% for line in lines %}
+						<tr id="test{{ line.line_id }}">
+							<td>{{ line.title }}</td>
+							<td id="PHT_{{ line.beer_id }}">{{ line.priceHT| number_format(2, '.', ',') }}€</td>
+							<td id="PTTC_{{ line.beer_id }}">{{ (line.priceHT * 1.2) | number_format(2, '.', ',') }}€</td>
+							<td id="line{{ line.beer_id }}">{{ line.beerQTY }}<input type="hidden" name="qty_id[{{ line.beer_id }}]" value="{{ line.beer_id }}"/></td>
+							<td><input class="" type="number" min="0" name="qty[{{ line.beer_id }}]" value="0" oninput="calcPrice(this, {{ line.beer_id }}, {{ line.priceHT }})" /></td>
+							<input type="hidden" name="beer_id{{ line.beer_id }}" value="{{ line.beer_id }}"/>
+							<td><button class="" type="button" onclick="upBasket({{line.beer_id}})"><i class="fas fa-plus-circle"></i></button></td>
+							<td><button class="" type="button" onclick="lessBasket({{line.beer_id}}, {{line.line_id}})"><i class="fas fa-minus-circle"></i></button></td>
+							<td><button class="" type="button" onclick="deleteLine({{line.line_id}})">Retirer</button></td>
 						</tr>
-					</thead>
-					<tbody>
-						{% for beer in beers %}
-							<tr>
-								<td>{{ beer.name }}</td>
-								<td id="PHT_{{ beer.id }}">{{ beer.price | number_format(2, ',', '.') }}€</td>
-								<td id="PTTC_{{ beer.id }}">{{ (beer.price * 1.2)  | number_format(2, ',', '.')}}€</td>
-								<td><input type="number" min="0" name="qty[{{ beer.id }}]" value="0" oninput="calcPrice(this, {{ beer.id }}, {{ beer.price }});" /></td>
-							</tr>
 						{% endfor %}
-					</tbody>
-					{# <tfoot>
-						<tr>
-							<th>Total</th>
-							<th colspan="3" id="totaux"></th>
-						</tr>
-					</tfoot> #}
-					
-				</table>
-				{% if user %}
+					</form>
+				</tbody>
+			</table>
+			{% if user %}
+			<form action="/shop/confirmation">
 				<button type="submit">COMMANDER</button>
-				{% else %}
-					<button type="submit" disabled>COMMANDER</button>
-					<p>Inscrivez-vous pour pouvoir commander !</p>
-				{% endif %}
 			</form>
+			{% else %}
+				<p>Inscrivez-vous pour pouvoir commander !</p>
+			{% endif %}
 		</div>
 	</div>
 </section>
-	<script src="/assets/js/scripts.js"></script>
+<script src="/assets/js/scripts.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 {% endblock %}

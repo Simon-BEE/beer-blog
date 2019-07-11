@@ -7,12 +7,12 @@ class UserTable extends Table
 {
     public function allWithoutLimit()
     {
-        return $this->query("SELECT * FROM {$this->table} ORDER BY id_user");
+        return $this->query("SELECT * FROM {$this->table} ORDER BY id");
     }
 
     public function find(int $id)
     {
-        return $this->query("SELECT * FROM {$this->table} WHERE id_user=?", [$id], true);
+        return $this->query("SELECT * FROM {$this->table} WHERE id=?", [$id], true);
     }
 
     public function exist($mail)
@@ -50,33 +50,38 @@ class UserTable extends Table
                     city	= '$city',
                     country	= '$country',
                     phone   = '$phone'
-                WHERE id_user = ?";
+                WHERE id = ?";
         return $this->query($sql, [$id]);
     }
 
     public function updatePwd($password, $id)
     {
-        return $this->query("UPDATE user SET password = '$password' WHERE id_user = ?", [$id]);
+        return $this->query("UPDATE user SET password = '$password' WHERE id = ?", [$id]);
     }
 
     public function deleteToken($id)
     {
-        return $this->query("UPDATE user SET token = '' WHERE id_user = ?", [$id]);
+        return $this->query("UPDATE user SET token = '' WHERE id = ?", [$id]);
+    }
+
+    public function verify($id)
+    {
+        return $this->query("UPDATE user SET verify = 1 WHERE id = ?", [$id]);
     }
 
     public function latestById()
     {
-        $id = $this->query("SELECT id_user FROM {$this->table} ORDER BY id_user DESC LIMIT 1", null, true, null)->getId();
-        return $this->query("SELECT * FROM {$this->table} WHERE id_user = ?", [$id], true, null);
+        $id = $this->query("SELECT id FROM {$this->table} ORDER BY id DESC LIMIT 1", null, true, null)->getId();
+        return $this->query("SELECT * FROM {$this->table} WHERE id = ?", [$id], true, null);
     }
 
     public function update($column, $news, $id)
     {
-        return $this->db->query("UPDATE {$this->table} SET $column = '$news'  WHERE id_user = '$id'");
+        return $this->db->query("UPDATE {$this->table} SET $column = '$news'  WHERE id = '$id'");
     }
 
     public function delete($id)
     {
-        return $this->db->query("DELETE FROM {$this->table} WHERE id_user = $id");
+        return $this->db->query("DELETE FROM {$this->table} WHERE id = $id");
     }
 }

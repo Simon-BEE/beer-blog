@@ -70,7 +70,7 @@ class SiteController extends Controller
             $name = htmlspecialchars($_POST['name']);
             $subject = htmlspecialchars($_POST['subject']);
             $content = htmlspecialchars($_POST['content']);
-            $msg = ["html" => $name." | email: ".$mail."| Vous a envoyé : <br />".$content];
+            $msg = MailController::setMsgContact($name, $mail, $content);
             MailController::envoiMail($subject, "montluconaformac2019@gmail.com", $msg);
         }
         
@@ -81,5 +81,20 @@ class SiteController extends Controller
                 "title" => $title
             ]
         );
+    }
+
+    public function mentions()
+    {
+        return $this->render('site/mentions');
+    }
+
+    public function cgv()
+    {
+        return $this->render('site/cgv');
+    }
+
+    public function notfound()
+    {
+        return $this->render('layout/404');
     }
 }

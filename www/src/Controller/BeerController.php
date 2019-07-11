@@ -46,7 +46,7 @@ class BeerController extends Controller
             header('Location: ' . $url);
             exit();
         }
-        $title = "article : " . $beer->getName();
+        $title = "article : " . $beer->getTitle();
 
         return $this->render(
             "beer/show",

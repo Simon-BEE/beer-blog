@@ -1,0 +1,46 @@
+{% extends 'layout/default.twig' %}
+
+{% block content %}
+<section id='login_section' class="">
+    <div class="login-page">
+        <div class="form">
+            <form method="POST" action="" class="login-form">
+                <h2>Mon adresse</h1>
+                <div class="form_row">
+                    <label>Nom</label>
+                    <input class="" type="text" name="lastname" value="{{ address.lastname }}" placeholder="Votre nom">
+                </div>
+                <div class="form_row">
+                    <label>Prénom</label>
+                    <input class="" type="text" name="firstname" value="{{ address.firstname }}" placeholder="Votre prénom">
+                </div>
+                <div class="form_row">
+                    <label>Adresse</label>
+                    <input class="" type="text" name="address" value="{{ address.address }}" placeholder="Votre adresse">
+                </div>
+                <div class="form_row">
+                    <label>Code Postale</label>
+                    <input class="" type="text" name="zipCode" value="{{ address.zipCode }}" placeholder="Votre code postal">
+                </div>
+                <div class="form_row">
+                    <label>Ville</label>
+                    <input class="" type="text" name="city" value="{{ address.city}}" placeholder="Votre ville">
+                </div>
+                <div class="form_row">
+                    <label>Pays</label>
+                    <input class="" type="text" name="country" value="{{ address.country}}" placeholder="Votre pays">
+                </div>
+                <div class="form_row">
+                    <label>Téléphone</label>
+                    <input class="" type="tel" name="phone" value="{{ address.phone }}" placeholder="Votre numéro de téléphone">
+                </div>
+                <input class="" type="hidden" name="user_id" value="{{ auth.id }}" />   
+                <button type="submit" class="">Modifier cette adresse</button>
+            </form>
+        </div>
+        <div class="mb-5">
+            <a href="{{address.setUrl}}/delete" class="">Supprimer cette adresse</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

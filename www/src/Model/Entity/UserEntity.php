@@ -5,114 +5,63 @@ use Core\Model\Entity;
 
 class UserEntity extends Entity
 {
-
-    private $id_user;
-
-    private $lastname;
-
-    private $firstname;
-
-    private $address;
-
-    private $zipCode;
-
-    private $city;
-
-    private $country;
-
-    private $phone;
-
+    private $id;
     private $mail;
-
     private $password;
-
     private $token;
-
     private $createdAt;
+    private $verify;
 
-    public function getId(): int
+    public function getId()
     {
-        return $this->id_user;
+        return $this->id;
     }
 
-    public function getLastname(): string
+    public function getCreatedAt()
     {
-        return $this->lastname;
+        return new \DateTime($this->createdAt);
     }
 
-    public function getFirstname(): string
-    {
-        return $this->firstname;
-    }
-
-    public function getAddress(): string
-    {
-        return $this->address;
-    }
-
-    public function getZipcode(): string
-    {
-        return $this->zipCode;
-    }
-
-    public function getCity(): string
-    {
-        return $this->city;
-    }
-
-    public function getCountry(): string
-    {
-        return $this->country;
-    }
-
-    public function getPhone(): string
-    {
-        return $this->phone;
-    }
-
-    public function getMail(): string
-    {
+    public function getMail() {
         return $this->mail;
     }
 
-    public function getPwd(): string
-    {
+    public function getPassword() {
         return $this->password;
     }
 
-    public function getToken(): string
-    {
+    public function getVerify() {
+        return $this->verify;
+    }
+
+    public function getToken() {
         return $this->token;
     }
+    
 
-    public function getDate(): string
-    {
-        return $this->createdAt;
-    }
+    // public function getUrl(): string
+    // {
+    //     return \App\App::getInstance()
+    //         ->getRouter()
+    //         ->url('category', [
+    //             "lastname" => $this->getLastname(),
+    //             "id" => $this->getId()
+    //         ]);
+    // }
 
-    public function getUrl(): string
-    {
-        return \App\App::getInstance()
-            ->getRouter()
-            ->url('category', [
-                "lastname" => $this->getLastname(),
-                "id" => $this->getId()
-            ]);
-    }
+    // public function getAdminUrl():string
+    // {
+    //     return \App\App::getInstance()->getRouter()->url("admin_user_edit", [
+    //         "lastname" => $this->getLastname(),
+    //         "id" => $this->getId()
+    //     ]);
+    // }
 
-    public function getAdminUrl():string
-    {
-        return \App\App::getInstance()->getRouter()->url("admin_user_edit", [
-            "lastname" => $this->getLastname(),
-            "id" => $this->getId()
-        ]);
-    }
-
-    public function deleteUrl():string
-    {
-        return \App\App::getInstance()->getRouter()->url("admin_user_delete", [
-            "lastname" => $this->getLastname(),
-            "id" => $this->getId()
-        ]);
-    }
+    // public function deleteUrl():string
+    // {
+    //     return \App\App::getInstance()->getRouter()->url("admin_user_delete", [
+    //         "lastname" => $this->getLastname(),
+    //         "id" => $this->getId()
+    //     ]);
+    // }
 }

@@ -13,6 +13,11 @@ a{
     text-decoration: none;
 }
 
+strong{
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
 /***********HEADER***********/
 header{
     width: 100%;

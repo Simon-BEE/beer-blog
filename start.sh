@@ -14,14 +14,14 @@ docker-compose -f docker-compose.yml up -d
 
 sleep 10;
 
-docker exec beer composer update
+#docker exec beer composer update
 
 docker exec beer php commande/createsql.php
 
 echo
 echo "#-----------------------------------------------------------"
 echo "#"
-echo "# Please check your browser to see if it is running, use your"
+echo "# Please check your browser to see if it is running "
 echo "#"
 echo "#-----------------------------------------------------------"
 echo
